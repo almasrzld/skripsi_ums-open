@@ -20,7 +20,7 @@ const Provider = ({ children }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NextTopLoader showSpinner={false} color="#0B99FF" />
+      <NextTopLoader showSpinner={false} color="#FF165D" />
       {children}
       <Toaster />
     </QueryClientProvider>

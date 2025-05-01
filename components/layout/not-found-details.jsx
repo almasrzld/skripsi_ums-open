@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 
-const NotFound = () => {
+const NotFoundDetails = () => {
   const router = useRouter();
 
   return (
@@ -13,30 +13,24 @@ const NotFound = () => {
         404
       </span>
       <h2 className="font-heading my-2 text-2xl font-bold">
-        Oops! Halaman tidak ditemukan
+        Oops! Page not found
       </h2>
-      <p>Maaf, halaman yang Anda cari tidak ada atau telah dipindahkan.</p>
+      <p>
+        The page you are looking for might have been removed or is temporarily
+        unavailable.
+      </p>
       <div className="mt-8 flex justify-center gap-2">
         <Button
           id="button-back"
           onClick={() => router.back()}
           variant="default"
           size="lg"
-          className="cursor-pointer"
         >
-          Kembali
-        </Button>
-        <Button
-          onClick={() => router.push("/")}
-          variant="ghost"
-          size="lg"
-          className="cursor-pointer"
-        >
-          Kembali ke Homepage
+          Back
         </Button>
       </div>
     </div>
   );
 };
 
-export default NotFound;
+export default NotFoundDetails;

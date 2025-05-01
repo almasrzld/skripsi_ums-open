@@ -5,19 +5,23 @@ export default function Footer() {
   const FOOTERLIST = [
     {
       name: "Beranda",
-      path: "#beranda",
+      path: "/",
     },
     {
-      name: "Form",
-      path: "#form",
+      name: "Profil",
+      path: "/profil",
     },
     {
-      name: "FAQ",
-      path: "#faq",
+      name: "Pendaftaran",
+      path: "/pendaftaran",
     },
     {
-      name: "Cetak",
-      path: "/cetak",
+      name: "Bagan",
+      path: "/bagan",
+    },
+    {
+      name: "Kontak",
+      path: "/kontak",
     },
   ];
 
@@ -26,7 +30,7 @@ export default function Footer() {
       <div className="container mx-auto py-5">
         <div className="flex flex-col gap-4 text-center">
           <h1 className="text-white font-bold text-2xl md:text-3xl">
-            Dinsos Surakarta
+            UMS Open
           </h1>
           <h1 className="text-white italic text-sm md:text-base">
             “Menyapa dengan senyum, melayani dengan ikhlas”
@@ -47,12 +51,12 @@ export default function Footer() {
         <hr className="w-full border-t border-neutral-200 my-8" />
         <div className="flex flex-col md:flex-row items-center justify-center md:justify-between text-center md:text-left md:px-11">
           <div className="flex items-center mb-4 md:mb-0 md:pr-[75px]">
-            <h1>UMS Open</h1>
-            <div className="text-white font-semibold ml-3">Dinsos</div>
+            <h1>UMS</h1>
+            <div className="text-white font-semibold ml-3">Open</div>
           </div>
           <div className="text-white mb-4 md:mb-0 text-center">
-            <span className="font-bold">©Dinsos</span> All Rights Reserved.
-            Website by Team Magang UMS
+            <span className="font-bold">©UMS Open</span> All Rights Reserved.
+            Website by Almas Rizaldi
           </div>
           <div className="flex space-x-4">
             <Link
