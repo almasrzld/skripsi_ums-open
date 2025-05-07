@@ -1,11 +1,17 @@
-import { Inter } from "next/font/google";
+import { Sansita } from "next/font/google";
 import "./globals.css";
 import Provider from "@/components/layout/provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const sansita = Sansita({
+  subsets: ["latin"],
+  weight: ["400", "700", "800", "900"],
+});
 
 export const metadata = {
-  title: "UMS Open",
+  title: {
+    default: "UMS Open",
+    template: "%s | UMS Open",
+  },
   description: "UMS Open",
 };
 
@@ -17,7 +23,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" type="image/png" />
         <link rel="apple-touch-icon" href="/favicon.ico" />
       </head>
-      <body className={inter.className}>
+      <body className={sansita.className}>
         <Provider>{children}</Provider>
       </body>
     </html>
