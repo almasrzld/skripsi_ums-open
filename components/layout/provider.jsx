@@ -3,7 +3,7 @@
 import React from "react";
 import NextTopLoader from "nextjs-toploader";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "../ui/sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 const Provider = ({ children }) => {
   const [queryClient] = React.useState(
