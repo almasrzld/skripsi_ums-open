@@ -26,8 +26,8 @@ import { toast } from "sonner";
 
 const loginSchema = z.object({
   id: z.string().optional(),
-  email: z.string().email(),
-  password: z.string().min(6),
+  email: z.string().email("Email tidak valid"),
+  password: z.string().min(6, "Password minimal 6 karakter"),
 });
 
 const AuthLoginFeature = () => {
