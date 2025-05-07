@@ -1,13 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const NAVBAR_ITEMS = [
     {
@@ -32,12 +41,37 @@ const Navbar = () => {
     },
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header className="absolute top-0 left-0 right-0 z-50">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 ${
+        isScrolled ? "bg-white shadow-md" : "bg-transparent"
+      } `}
+    >
       <nav className="container">
-        <div className="flex items-center justify-between py-2">
-          <h1 className="font-bold text-3xl text-white">UMSopen.</h1>
-          <ul className="hidden md:flex items-center gap-5">
+        <div className="flex items-center justify-between py-4">
+          <h1
+            className={`font-bold text-3xl ${
+              isScrolled ? "text-black" : "text-white"
+            }`}
+          >
+            UMSopen
+          </h1>
+          <ul className="hidden md:flex items-center gap-8">
             {NAVBAR_ITEMS.map((item) => (
               <li key={item.name}>
                 <Link
@@ -45,6 +79,8 @@ const Navbar = () => {
                   className={`font-semibold text-lg hover:text-[#FF165D] ${
                     pathname === item.path && item.name !== "Beranda"
                       ? "text-[#FF165D]"
+                      : isScrolled
+                      ? "text-black"
                       : "text-white"
                   }`}
                 >
@@ -54,18 +90,24 @@ const Navbar = () => {
             ))}
           </ul>
           <div className="md:hidden">
-            <Sheet>
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button size="icon">
                   <HamburgerMenuIcon />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
-                <ul className="mt-2 ml-2">
+                <SheetHeader>
+                  <SheetTitle className="text-2xl">
+                    UMS<span className="text-[#3EC1D3]">open.</span>
+                  </SheetTitle>
+                </SheetHeader>
+                <ul className="px-4">
                   {NAVBAR_ITEMS.map((item) => (
                     <li key={item.name}>
                       <Link
                         href={item.path}
+                        onClick={() => setIsOpen(false)}
                         className={`font-semibold py-2 block hover:text-[#FF165D] ${
                           pathname === item.path && item.name !== "Beranda"
                             ? "text-[#FF165D]"
