@@ -14,7 +14,6 @@ import Image from "next/image";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import {
   LockClosedIcon,
   EnvelopeClosedIcon,
@@ -23,6 +22,9 @@ import {
 } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
+import { setCookie } from "@/libs/utils";
+import { axiosInstanceToken } from "@/libs/axios";
 
 const loginSchema = z.object({
   id: z.string().optional(),
@@ -31,7 +33,6 @@ const loginSchema = z.object({
 });
 
 const AuthLoginFeature = () => {
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm({
@@ -42,20 +43,21 @@ const AuthLoginFeature = () => {
     },
   });
 
-  const onSubmit = (data) => {
-    const validEmail = "admin@gmail.com";
-    const validPassword = "password123";
-
-    if (data.email === validEmail && data.password === validPassword) {
-      toast.success("Login berhasil!");
-      document.cookie = "token=dummytoken; path=/dashboard";
-      setTimeout(() => {
-        window.location.href = "/dashboard";
-      }, 1000);
-    } else {
-      toast.error("Email atau password salah");
-    }
-  };
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (values) => {
+      const response = await axiosInstanceToken.post("/api/auth/login", values);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      setCookie(data.data.token);
+      window.location.href = "/dashboard";
+      console.log(data, "Berhasil Login");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+  });
 
   return (
     <main className="">
@@ -79,7 +81,10 @@ const AuthLoginFeature = () => {
             LOGIN
           </h2>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            <form
+              onSubmit={form.handleSubmit((values) => mutate(values))}
+              className="space-y-5"
+            >
               <FormField
                 control={form.control}
                 name="email"
@@ -123,9 +128,9 @@ const AuthLoginFeature = () => {
                           tabIndex={-1}
                         >
                           {showPassword ? (
-                            <EyeClosedIcon className="w-5 h-5" />
-                          ) : (
                             <EyeOpenIcon className="w-5 h-5" />
+                          ) : (
+                            <EyeClosedIcon className="w-5 h-5" />
                           )}
                         </button>
                       </div>
@@ -140,8 +145,9 @@ const AuthLoginFeature = () => {
                 size="xl"
                 variant="secondary"
                 className="cursor-pointer"
+                disabled={isPending}
               >
-                Login
+                {isPending ? "Loading..." : "Login"}
               </Button>
             </form>
           </Form>

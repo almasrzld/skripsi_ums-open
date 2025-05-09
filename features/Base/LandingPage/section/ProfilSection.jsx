@@ -10,7 +10,7 @@ const ProfilSection = () => {
           <Link href="/profil">Selengkapnya</Link>
         </Button>
       </div>
-      <p className="mt-4 font-light text-sm">
+      <p className="mt-4 font-light text-md">
         Taekwondo Universitas Muhammadiyah Surakarta (UMS) merupakan Unit
         Kegiatan Mahasiswa (UKM) yang menjadi wadah pengembangan minat dan bakat
         mahasiswa dalam seni bela diri Taekwondo. UKM ini tidak hanya berfokus

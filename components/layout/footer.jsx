@@ -33,7 +33,7 @@ export default function Footer() {
             UMS Open
           </h1>
           <h1 className="text-white italic text-sm md:text-base">
-            “Menyapa dengan senyum, melayani dengan ikhlas”
+            “Meningkatkan Sportivitas dan Prestasi Atlet”
           </h1>
           <div className="flex justify-center space-x-4">
             {FOOTERLIST.map((item, index) => (
