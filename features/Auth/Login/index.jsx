@@ -45,14 +45,16 @@ const AuthLoginFeature = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values) => {
-      const response = await axiosInstanceToken.post("/api/auth/login", values);
+      const response = await axiosInstanceToken.post(
+        "/v1/api/auth/login",
+        values
+      );
       return response.data;
     },
     onSuccess: (data) => {
       toast.success(data.message);
       setCookie(data.data.token);
       window.location.href = "/dashboard";
-      console.log(data, "Berhasil Login");
     },
     onError: (error) => {
       toast.error(error.response.data.message);

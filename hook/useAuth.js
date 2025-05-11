@@ -9,7 +9,7 @@ const useAuthStore = create((set) => ({
       const token = getCookie();
       if (!token) return set({ data: null });
 
-      const response = await axiosInstance.get("/api/auth/me", {
+      const response = await axiosInstance.get("/v1/api/auth/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -17,16 +17,15 @@ const useAuthStore = create((set) => ({
 
       set({ data: response.data });
     } catch (error) {
-      console.error("getUser error:", error);
       removeCookie();
-      set({ data: null });
       window.location.href = "/";
+      set({ data: null });
     }
   },
   logoutHandler: async () => {
+    window.location.href = "/";
     removeCookie();
     set({ data: null });
-    window.location.href = "/";
   },
 }));
 
