@@ -11,6 +11,13 @@ import {
 import { usePathname } from "next/navigation";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const Navbar = () => {
@@ -30,6 +37,7 @@ const Navbar = () => {
     {
       name: "Pendaftaran",
       path: "/pendaftaran",
+      submenu: [{ name: "Cek Pembayaran", path: "/cek-pembayaran" }],
     },
     {
       name: "Bagan",
@@ -73,19 +81,61 @@ const Navbar = () => {
           </h1>
           <ul className="hidden md:flex items-center gap-8">
             {NAVBAR_ITEMS.map((item) => (
-              <li key={item.name}>
-                <Link
-                  href={item.path}
-                  className={`font-semibold text-lg hover:text-[#FF165D] ${
-                    pathname === item.path && item.name !== "Beranda"
-                      ? "text-[#FF165D]"
-                      : isScrolled
-                      ? "text-black"
-                      : "text-white"
-                  }`}
-                >
-                  {item.name}
-                </Link>
+              <li key={item.name} className="relative">
+                {item.submenu ? (
+                  <DropdownMenu>
+                    <div className="flex items-center gap-1">
+                      <Link
+                        href={item.path}
+                        className={`font-semibold text-lg hover:text-[#FF165D] ${
+                          pathname === item.path
+                            ? "text-[#FF165D]"
+                            : isScrolled
+                            ? "text-black"
+                            : "text-white"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                      <DropdownMenuTrigger asChild>
+                        <button>
+                          <ChevronDown
+                            className={`w-5 h-5 cursor-pointer ${
+                              isScrolled ? "text-black" : "text-white"
+                            }`}
+                          />
+                        </button>
+                      </DropdownMenuTrigger>
+                    </div>
+                    <DropdownMenuContent align="end">
+                      {item.submenu.map((sub) => (
+                        <DropdownMenuItem key={sub.name} asChild>
+                          <Link
+                            href={sub.path}
+                            className={`w-full cursor-pointer ${
+                              pathname === sub.path ? "text-[#FF165D]" : ""
+                            }`}
+                          >
+                            {sub.name}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Link
+                    href={item.path}
+                    className={`font-semibold text-lg hover:text-[#FF165D] ${
+                      pathname === item.path
+                        ? "text-[#FF165D]"
+                        : isScrolled
+                        ? "text-black"
+                        : "text-white"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
@@ -102,20 +152,40 @@ const Navbar = () => {
                     UMS<span className="text-[#3EC1D3]">open.</span>
                   </SheetTitle>
                 </SheetHeader>
-                <ul className="px-4">
+                <ul className="px-4 space-y-2">
                   {NAVBAR_ITEMS.map((item) => (
                     <li key={item.name}>
                       <Link
                         href={item.path}
                         onClick={() => setIsOpen(false)}
                         className={`font-semibold py-2 block hover:text-[#FF165D] ${
-                          pathname === item.path && item.name !== "Beranda"
+                          pathname === item.path
                             ? "text-[#FF165D]"
                             : "text-black"
                         }`}
                       >
                         {item.name}
                       </Link>
+
+                      {item.submenu && (
+                        <ul className="pl-4 mt-1 space-y-1">
+                          {item.submenu.map((subitem) => (
+                            <li key={subitem.name}>
+                              <Link
+                                href={subitem.path}
+                                onClick={() => setIsOpen(false)}
+                                className={`block text-sm font-medium hover:text-[#FF165D] ${
+                                  pathname === subitem.path
+                                    ? "text-[#FF165D]"
+                                    : "text-black"
+                                }`}
+                              >
+                                {subitem.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
                 </ul>
