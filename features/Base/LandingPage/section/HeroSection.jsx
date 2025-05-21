@@ -42,6 +42,7 @@ const HeroSection = () => {
           <Image
             src="/images/hero-image.png"
             alt="hero img"
+            priority
             width={500}
             height={500}
             className="md:w-[500px] md:h-[500px] w-[300px] h-[300px]"

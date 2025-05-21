@@ -34,8 +34,8 @@ const DashboardWrapper = ({ children }) => {
       icons: Package2,
     },
     {
-      title: "Data Peserta",
-      href: "/dashboard/data-peserta",
+      title: "Partisipan",
+      href: "/dashboard/partisipan",
       icons: Map,
     },
     {

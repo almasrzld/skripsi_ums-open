@@ -1,11 +1,7 @@
 import PendaftaranFeature from "@/features/Base/Pendaftaran";
 
 const Pendaftaran = () => {
-  return (
-    <div>
-      <PendaftaranFeature />
-    </div>
-  );
+  return <PendaftaranFeature />;
 };
 
 export default Pendaftaran;

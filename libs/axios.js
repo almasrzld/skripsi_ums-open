@@ -13,3 +13,8 @@ export const axiosInstanceToken = axios.create({
     Authorization: `Bearer ${getCookie()}`,
   },
 });
+
+export const axiosInstanceCredentialToken = axios.create({
+  baseURL: LIVE_URL,
+  withCredentials: true,
+});
