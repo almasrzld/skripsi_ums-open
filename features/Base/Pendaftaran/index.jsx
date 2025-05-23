@@ -19,6 +19,7 @@ import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/libs/axios";
 import { toast } from "sonner";
 import Script from "next/script";
+import { MIDTRANS_CLIENT_KEY } from "@/constants/config";
 
 const pendaftaranSchema = z.object({
   user_name: z.string().min(1, "Nama lengkap wajib diisi"),
@@ -79,18 +80,14 @@ const PendaftaranFeature = () => {
     <>
       <Script
         src="https://app.sandbox.midtrans.com/snap/snap.js"
-        data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
+        data-client-key={MIDTRANS_CLIENT_KEY}
       />
       <main className="">
-        {/* Header */}
         <section
           className="relative text-center bg-cover bg-center bg-no-repeat py-32 px-4 text-white"
           style={{ backgroundImage: "url('/images/bg-pendaftaran.jpg')" }}
         >
-          {/* Overlay gelap */}
           <div className="absolute inset-0 bg-[#3EC1D3]/50 z-0" />
-
-          {/* Konten header */}
           <div className="relative z-10 max-w-3xl mx-auto">
             <h1 className="text-5xl font-bold mb-4 leading-tight">
               Daftar Kejuaraan Taekwondo UMS Open
@@ -102,7 +99,6 @@ const PendaftaranFeature = () => {
           </div>
         </section>
 
-        {/* Formulir */}
         <section className="container py-8">
           <h2 className="text-3xl font-semibold mb-6">Formulir Pendaftaran</h2>
           <Form {...form}>
@@ -141,9 +137,9 @@ const PendaftaranFeature = () => {
                 name="user_phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>No. WhatsApp</FormLabel>
+                    <FormLabel>No. Hp</FormLabel>
                     <FormControl>
-                      <Input placeholder="+62..." {...field} />
+                      <Input placeholder="08..." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -209,7 +205,6 @@ const PendaftaranFeature = () => {
           </Form>
         </section>
 
-        {/* Informasi Tambahan */}
         <section className="container space-y-8">
           <h2 className="text-3xl font-semibold">Informasi Penting</h2>
           <ul className="space-y-2 text-gray-700">
@@ -228,7 +223,6 @@ const PendaftaranFeature = () => {
           </ul>
         </section>
 
-        {/* Timeline Kejuaraan */}
         <section className="container pt-8 space-y-8">
           <h2 className="text-3xl font-semibold">Timeline Kejuaraan</h2>
           <ol className="border-l-2 border-[#3EC1D3] pl-4 space-y-4">
@@ -247,7 +241,6 @@ const PendaftaranFeature = () => {
           </ol>
         </section>
 
-        {/* FAQ */}
         <section className="container space-y-8 py-8">
           <h2 className="text-3xl font-semibold">FAQ (Pertanyaan Umum)</h2>
           <div className="space-y-4">

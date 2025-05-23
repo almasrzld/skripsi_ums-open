@@ -37,7 +37,7 @@ const Navbar = () => {
     {
       name: "Pendaftaran",
       path: "/pendaftaran",
-      submenu: [{ name: "Cek Pembayaran", path: "/cek-pembayaran" }],
+      submenu: [{ name: "Cek Pembayaran", path: "/pendaftaran/cek-pembayaran" }],
     },
     {
       name: "Bagan",
@@ -149,7 +149,7 @@ const Navbar = () => {
               <SheetContent side="right">
                 <SheetHeader>
                   <SheetTitle className="text-2xl">
-                    UMS<span className="text-[#3EC1D3]">open.</span>
+                    UMS<span className="text-[#3EC1D3]">open</span>
                   </SheetTitle>
                 </SheetHeader>
                 <ul className="px-4 space-y-2">
