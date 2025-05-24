@@ -38,8 +38,13 @@ const pendaftaranSchema = z.object({
     .any()
     .refine((file) => file instanceof File, "Foto wajib diupload")
     .refine(
-      (file) => file && file.type === "image/png",
-      "Format foto harus PNG"
+      (file) =>
+        file && ["image/png", "image/jpg", "image/jpeg"].includes(file.type),
+      "Format foto harus PNG, JPG, atau JPEG"
+    )
+    .refine(
+      (file) => file && file.size <= 2 * 1024 * 1024,
+      "Ukuran foto maksimal 2MB"
     ),
   user_message: z.string().optional(),
 });
@@ -216,12 +221,12 @@ const PendaftaranFeature = () => {
                 name="photo"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Upload Foto (PNG)</FormLabel>
+                    <FormLabel>Upload Foto</FormLabel>
                     <FormControl>
                       <div>
                         <Input
                           type="file"
-                          accept="image/png"
+                          accept="image/png, image/jpg, image/jpeg"
                           onChange={(e) => {
                             field.onChange(e.target.files?.[0]);
                           }}
