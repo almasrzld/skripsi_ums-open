@@ -14,7 +14,12 @@ export const axiosInstanceToken = axios.create({
   },
 });
 
-export const axiosInstanceCredentialToken = axios.create({
-  baseURL: LIVE_URL,
-  withCredentials: true,
-});
+export const axiosUpload = (url, formData, config = {}) => {
+  return axiosInstance.post(url, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      ...config.headers,
+    },
+    ...config,
+  });
+};

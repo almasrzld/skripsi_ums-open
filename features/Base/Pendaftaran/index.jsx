@@ -16,17 +16,31 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, Calendar, HelpCircle } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import { axiosInstance } from "@/libs/axios";
+import { axiosUpload } from "@/libs/axios";
 import { toast } from "sonner";
 import Script from "next/script";
 import { MIDTRANS_CLIENT_KEY } from "@/constants/config";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 const pendaftaranSchema = z.object({
   user_name: z.string().min(1, "Nama lengkap wajib diisi"),
   user_email: z.string().email("Email tidak valid"),
   user_phone: z.string().min(10, "Nomor HP tidak valid"),
-  user_category: z.string().min(1, "Kategori harus diisi"),
+  user_category: z.string().min(1, "Kategori harus dipilih"),
   user_institution: z.string().min(1, "Asal instansi wajib diisi"),
+  photo: z
+    .any()
+    .refine((file) => file instanceof File, "Foto wajib diupload")
+    .refine(
+      (file) => file && file.type === "image/png",
+      "Format foto harus PNG"
+    ),
   user_message: z.string().optional(),
 });
 
@@ -39,13 +53,23 @@ const PendaftaranFeature = () => {
       user_phone: "",
       user_category: "",
       user_institution: "",
+      photo: undefined,
       user_message: "",
     },
   });
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values) => {
-      const res = await axiosInstance.post("/v1/api/pendaftaran", values);
+      const formData = new FormData();
+      formData.append("user_name", values.user_name);
+      formData.append("user_email", values.user_email);
+      formData.append("user_phone", values.user_phone);
+      formData.append("user_category", values.user_category);
+      formData.append("user_institution", values.user_institution);
+      formData.append("user_message", values.user_message || "");
+      formData.append("photo", values.photo);
+
+      const res = await axiosUpload("/v1/api/pendaftaran", formData);
       return res.data;
     },
     onSuccess: (data) => {
@@ -65,13 +89,11 @@ const PendaftaranFeature = () => {
       form.reset();
     },
     onError: (error) => {
-      toast.error(error.response.data.message);
-      if (Array.isArray(data?.errors)) {
-        data.errors.forEach((err) => {
+      toast.error(error.response?.data?.message || "Terjadi kesalahan");
+      if (Array.isArray(error.response?.data?.errors)) {
+        error.response.data.errors.forEach((err) => {
           toast.error(err.message || `${err.path[0]} tidak valid`);
         });
-      } else {
-        toast.error(data?.message || "Terjadi kesalahan");
       }
     },
   });
@@ -113,7 +135,7 @@ const PendaftaranFeature = () => {
                   <FormItem>
                     <FormLabel>Nama Lengkap</FormLabel>
                     <FormControl>
-                      <Input placeholder="Contoh: Arya Wibowo" {...field} />
+                      <Input placeholder="Contoh: Almas Rizaldi" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -162,13 +184,50 @@ const PendaftaranFeature = () => {
                 control={form.control}
                 name="user_category"
                 render={({ field }) => (
-                  <FormItem className="md:col-span-2">
+                  <FormItem>
                     <FormLabel>Kategori Kejuaraan</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Pilih kategori" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="UNDER_55KG_PUTRA">
+                          Under 55kg Putra
+                        </SelectItem>
+                        <SelectItem value="UNDER_55KG_PUTRI">
+                          Under 55kg Putri
+                        </SelectItem>
+                        <SelectItem value="POOMSAE_JUNIOR">
+                          Poomsae Junior
+                        </SelectItem>
+                        <SelectItem value="KYORUGI_SENIOR">
+                          Kyorugi Senior
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="photo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Upload Foto (PNG)</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Contoh: Under 55kg Putra"
-                        {...field}
-                      />
+                      <div>
+                        <Input
+                          type="file"
+                          accept="image/png"
+                          onChange={(e) => {
+                            field.onChange(e.target.files?.[0]);
+                          }}
+                          className="file:mr-4 file:py-0.5 file:px-2 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#3EC1D3]/20 file:text-[#3EC1D3] file:cursor-pointer text-gray-500"
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -23,10 +23,19 @@ import {
 import useDashboardPartisipanFeature from "./hook";
 import useGetPartisipanDetails from "../PartisipanDetails/hook/useGetPartisipanDetails";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import DashboardPartisipanDetailsFeature from "@/features/Dashboard/PartisipanDetails";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import useParticipantLabels from "../PartisipanDetails/hook";
 
 const DashboardPartisipanFeature = () => {
   const { page, setPage, limit, search, setSearch, value, status, setStatus } =
     useDashboardPartisipanFeature();
+  const { getCategoryLabel } = useParticipantLabels();
 
   const { data, isLoading } = useGetPartisipanDetails(
     page,
@@ -36,19 +45,19 @@ const DashboardPartisipanFeature = () => {
   );
 
   const participants = data?.data || [];
-  const totalPages = data?.totalPages ?? 1;
-  const currentPage = data?.currentPage ?? 1;
+  const totalPages = data?.pagination?.totalPages ?? 1;
+  const currentPage = data?.pagination?.page ?? 1;
 
   return (
     <main className="p-5">
       <Card>
-        <CardContent className="p-4">
+        <CardContent className="p-4 h-[74vh]">
           <h2 className="text-xl font-semibold mb-5">Daftar Partisipan</h2>
           <div className="flex justify-between items-center mb-5">
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Cari nama, kategori, atau institusi..."
+              placeholder="Cari nama partisipan"
               className="w-[300px]"
             />
             <Select value={status} onValueChange={setStatus}>
@@ -63,7 +72,7 @@ const DashboardPartisipanFeature = () => {
               </SelectContent>
             </Select>
           </div>
-          <ScrollArea className="w-full">
+          <ScrollArea className="w-full h-[calc(100%-150px)] rounded-md border p-4">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -92,7 +101,7 @@ const DashboardPartisipanFeature = () => {
                   participants.map((p) => (
                     <TableRow key={p.id}>
                       <TableCell>{p.user_name}</TableCell>
-                      <TableCell>{p.user_category}</TableCell>
+                      <TableCell>{getCategoryLabel(p.user_category)}</TableCell>
                       <TableCell>{p.user_institution}</TableCell>
                       <TableCell>{p.user_phone}</TableCell>
                       <TableCell>
@@ -113,9 +122,17 @@ const DashboardPartisipanFeature = () => {
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <Button variant="outline" size="sm">
-                          Lihat
-                        </Button>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="outline" size="sm">
+                              Lihat
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogTitle>Detail Partisipan</DialogTitle>
+                            <DashboardPartisipanDetailsFeature id={p.id} />
+                          </DialogContent>
+                        </Dialog>
                       </TableCell>
                     </TableRow>
                   ))
@@ -125,10 +142,12 @@ const DashboardPartisipanFeature = () => {
           </ScrollArea>
 
           {totalPages > 1 && (
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mt-4">
               <Button
                 disabled={currentPage === 1 || isLoading}
                 onClick={() => setPage(page - 1)}
+                variant="secondary"
+                className="cursor-pointer"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 <p>Previous Page</p>
@@ -136,6 +155,8 @@ const DashboardPartisipanFeature = () => {
               <Button
                 disabled={totalPages === page || isLoading}
                 onClick={() => setPage((prev) => prev + 1)}
+                variant="secondary"
+                className="cursor-pointer"
               >
                 <ArrowRight className="mr-2 h-4 w-4" />
                 <p>Next Page</p>
