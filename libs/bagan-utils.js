@@ -31,12 +31,12 @@ export function remapCompetitionDataByCategoryEnhanced(matches) {
           date: match.createdAt,
           teams: [
             {
-              name: match.participant1_name || "-",
+              name: match.participant1_info?.nama || "-",
               score: match.score1 || "-",
               id: match.participant1 || "-",
             },
             {
-              name: match.participant2_name || "-",
+              name: match.participant2_info?.nama || "-",
               score: match.score2 || "-",
               id: match.participant2 || "-",
             },

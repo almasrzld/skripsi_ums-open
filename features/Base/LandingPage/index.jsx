@@ -6,7 +6,6 @@ import {
   LokasiSection,
   FaqSection,
 } from "./section";
-import { bagandata } from "@/libs/bagan-data";
 
 export default function LandingPageFeature() {
   return (
@@ -14,7 +13,7 @@ export default function LandingPageFeature() {
       <HeroSection />
       <SponsorSection />
       <ProfilSection />
-      <BaganSection data={bagandata} />
+      <BaganSection />
       <LokasiSection />
       <FaqSection />
     </main>

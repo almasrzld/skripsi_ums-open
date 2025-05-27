@@ -7,7 +7,7 @@ const ProfilFeature = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full container">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-8">
             <Image
-              src="/images/hero-image.png"
+              src="/images/bg-profil.png"
               alt="hero img"
               width={500}
               height={500}

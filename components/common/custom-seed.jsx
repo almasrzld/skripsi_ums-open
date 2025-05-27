@@ -4,7 +4,7 @@ import { Crown } from "lucide-react";
 
 const { Seed, SeedItem, SeedTeam } = require("@pawix/react-brackets");
 
-const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }) => {
+const CustomSeed = ({ seed, breakpoint }) => {
   // breakpoint passed to Bracket component
   // to check if mobile view is triggered or not
 
@@ -21,16 +21,6 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }) => {
           backgroundColor: "#f8fafc",
         }}
       >
-        <div className="text-xs bg-slate-800 py-2 rounded-t text-white mb-1">
-          {seed.date
-            ? new Date(seed.date).toLocaleDateString("id-ID", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })
-            : "No Date"}
-        </div>
-
         <div className="p-2 flex flex-col gap-2">
           <SeedTeam
             style={{
@@ -58,7 +48,6 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }) => {
               <Crown className="size-4 text-yellow-400" />
             )}
           </SeedTeam>
-          <p className="text-slate-500 text-xs text-[10px]">VS</p>
           <SeedTeam
             style={{
               fontSize: 12,
@@ -84,9 +73,6 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }) => {
               <Crown className="size-4 text-yellow-400" />
             )}
           </SeedTeam>
-        </div>
-        <div className="py-2 text-xs border-t mx-4 border-slate-200 text-slate-500 text-center pt-1">
-          Win by: {seed.winMethod}
         </div>
       </SeedItem>
     </Seed>
