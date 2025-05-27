@@ -1,21 +1,21 @@
 import { axiosInstance } from "@/libs/axios";
 import { useQuery } from "@tanstack/react-query";
 
-const useGetBaganPertandingan = (page, limit, value, kategori) => {
+const useGetBaganPertandingan = (category) => {
   return useQuery({
-    queryKey: ["bagan-pertandingan", page, limit, value, kategori],
+    queryKey: ["bagan-pertandingan", category],
     queryFn: async () => {
-      const response = await axiosInstance.get("/v1/api/bagan-pertandingan", {
-        params: {
-          page,
-          limit,
-          search: value,
-          kategori,
-        },
-      });
-
+      const response = await axiosInstance.get(
+        "/v1/api/partisipan/by-category",
+        {
+          params: {
+            category,
+          },
+        }
+      );
       return response.data;
     },
+    enabled: !!category,
   });
 };
 

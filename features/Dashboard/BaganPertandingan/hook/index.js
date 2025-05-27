@@ -1,30 +1,21 @@
 "use client";
 
-import { useDebounce } from "use-debounce";
-import { z } from "zod";
 import { useState } from "react";
 
-export const DataPesertaSchema = z.object({
-  nama: z.string(),
-  slug: z.string(),
-});
-
 const useDashboardBaganPertandinganFeature = () => {
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
-  const [value] = useDebounce(search, 500);
   const [kategori, setKategori] = useState("");
 
+  const categoryLabel = {
+    UNDER_55KG_PUTRA: "Under 55kg Putra",
+    UNDER_55KG_PUTRI: "Under 55kg Putri",
+    POOMSAE_JUNIOR: "Poomsae Junior",
+    KYORUGI_SENIOR: "Kyorugi Senior",
+  };
+
   return {
-    page,
-    setPage,
-    limit,
-    search,
-    setSearch,
-    value,
     kategori,
     setKategori,
+    categoryLabel,
   };
 };
 

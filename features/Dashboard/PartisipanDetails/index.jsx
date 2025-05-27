@@ -2,7 +2,7 @@
 
 import useGetPartisipanDetailsById from "./hook/useGetPartisipanDetailsById";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Phone, Building2, User, Tag } from "lucide-react";
+import { Mail, Phone, Building2, User, LayoutList, IdCard } from "lucide-react";
 import useParticipantLabels from "./hook";
 
 const DashboardPartisipanDetailsFeature = ({ id }) => {
@@ -36,6 +36,11 @@ const DashboardPartisipanDetailsFeature = ({ id }) => {
 
         <div className="flex-1 grid gap-3 text-sm">
           <InfoRow
+            icon={<IdCard className="w-4 h-4" />}
+            label="Kode Peserta"
+            value={partisipan.user_kode}
+          />
+          <InfoRow
             icon={<User className="w-4 h-4" />}
             label="Nama"
             value={partisipan.user_name}
@@ -46,7 +51,7 @@ const DashboardPartisipanDetailsFeature = ({ id }) => {
             value={partisipan.user_institution}
           />
           <InfoRow
-            icon={<Tag className="w-4 h-4" />}
+            icon={<LayoutList className="w-4 h-4" />}
             label="Kategori"
             value={labelKategori}
           />

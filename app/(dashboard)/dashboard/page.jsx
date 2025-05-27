@@ -1,10 +1,12 @@
+import DashboardHomeFeature from "@/features/Dashboard/Home";
+
 export const metadata = {
   title: "UMS Open",
   description: "Dashboard Admin",
 };
 
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return <DashboardHomeFeature />;
 };
 
 export default Dashboard;
