@@ -1,92 +1,72 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { Bracket } from "@pawix/react-brackets";
+import CustomSeed from "@/components/common/custom-seed";
 import useGetBagan from "@/hook/useGetBagan";
-
-const roundLabels = ["Quarter", "Semi", "Final"];
+import { Loader2 } from "lucide-react";
+import { remapCompetitionDataByCategoryEnhanced } from "@/libs/bagan-utils";
 
 const BaganFeature = () => {
-  const { data: bagan, isLoading, isError } = useGetBagan();
+  const [remappingData, setIsRemappingData] = useState([]);
+  const { data, isLoading, isError } = useGetBagan();
 
-  if (isLoading) return <p className="p-4">Memuat bagan...</p>;
-  if (isError)
-    return <p className="p-4 text-red-600">Gagal memuat data bagan</p>;
+  useEffect(() => {
+    if (data?.data) {
+      const categoriesData = remapCompetitionDataByCategoryEnhanced(data.data);
+      setIsRemappingData(categoriesData.data);
+    }
+  }, [data]);
 
-  const grouped = bagan.reduce((acc, match) => {
-    if (!acc[match.round]) acc[match.round] = [];
-    acc[match.round].push(match);
-    return acc;
-  }, {});
+  if (isLoading && remappingData.length < 1) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="animate-spin size-8 mx-auto text-slate-800" />
+      </div>
+    );
+  }
 
-  const rounds = Object.keys(grouped).sort((a, b) => Number(a) - Number(b));
+  if (isError) {
+    return (
+      <div className="p-4 text-center text-red-600">
+        Gagal memuat data bagan dari server.
+      </div>
+    );
+  }
 
   return (
-    <div className="p-4 py-32 overflow-x-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center">
-        Bagan Pertandingan
-      </h1>
-
-      <div className="flex w-max items-start space-x-12">
-        {rounds.map((roundKey, idx) => {
-          const matches = grouped[roundKey];
-          const roundTitle =
-            roundLabels[idx] ?? `Ronde ${Number(roundKey) + 1}`;
-          const spacingMultiplier = Math.pow(2, idx); // untuk pengaturan space antar pertandingan
-
+    <div className="my-40 container">
+      {remappingData?.length > 0 &&
+        remappingData?.map((category, index) => {
           return (
-            <div
-              key={roundKey}
-              className="flex flex-col items-center min-w-[160px]"
-            >
-              <h2 className="text-lg font-semibold mb-4 text-center h-8">
-                {roundTitle}
+            <div key={index} className="mb-16">
+              <h2 className="text-2xl font-bold  mb-4">
+                Kategori {category.categories}
               </h2>
-
-              <div className="flex flex-col items-center space-y-[64px]">
-                {matches.map((match, matchIdx) => {
-                  const isP1Winner = match.winner === match.participant1;
-                  const isP2Winner = match.winner === match.participant2;
-
-                  return (
-                    <div
-                      key={match.id}
-                      className="bg-white rounded-md border shadow-sm text-sm w-40"
-                    >
-                      <div className="flex items-center justify-between px-2 py-1 border-b">
-                        <span
-                          className={`flex-1 ${
-                            isP1Winner
-                              ? "text-green-600 font-semibold"
-                              : "text-red-600"
-                          }`}
-                        >
-                          {match.participant1_name || "TBD"}
-                        </span>
-                        <span className="text-xs text-gray-500 ml-2">
-                          {match.score1 ?? "-"}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between px-2 py-1">
-                        <span
-                          className={`flex-1 ${
-                            isP2Winner
-                              ? "text-green-600 font-semibold"
-                              : "text-red-600"
-                          }`}
-                        >
-                          {match.participant2_name || "TBD"}
-                        </span>
-                        <span className="text-xs text-gray-500 ml-2">
-                          {match.score2 ?? "-"}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              <Bracket
+                rounds={category.data}
+                renderSeedComponent={CustomSeed}
+              />
             </div>
           );
         })}
-      </div>
+
+      {/* <div className="mt-40">
+        <h2>Sample Data if data works</h2>
+        {staticData?.data?.map((category, index) => {
+          return (
+            <div key={index} className="mb-16">
+              <h2 className="text-2xl font-bold  mb-4">
+                Kategori {category.categories}
+              </h2>
+              <Bracket
+                rounds={category.data}
+                renderSeedComponent={CustomSeed}
+              />
+            </div>
+          );
+        })}
+      </div> */}
     </div>
   );
 };

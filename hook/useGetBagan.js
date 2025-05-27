@@ -6,7 +6,7 @@ const useGetBagan = () => {
     queryKey: ["bagan"],
     queryFn: async () => {
       const response = await axiosInstance.get("/v1/api/bagan");
-      return response.data.data;
+      return response.data;
     },
   });
 };
