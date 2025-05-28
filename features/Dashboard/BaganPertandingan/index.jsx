@@ -16,11 +16,14 @@ import { axiosInstance } from "@/libs/axios";
 import { toast } from "sonner";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useDashboardBaganPertandinganFeature from "./hook";
+import useGetBagan from "@/hook/useGetBagan";
+import BaganStatusBadge from "@/components/common/bagan-status-badge";
 
 const DashboardBaganPertandinganFeature = () => {
   const { kategori, setKategori, categoryLabel } =
     useDashboardBaganPertandinganFeature();
   const { data, isLoading, error } = useGetBaganPertandingan(kategori);
+  const { data: statusBagan, refetch: refetchStatusBagan } = useGetBagan();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (category) => {
@@ -31,6 +34,7 @@ const DashboardBaganPertandinganFeature = () => {
     },
     onSuccess: () => {
       toast.success("Bagan berhasil dibuat!");
+      refetchStatusBagan();
     },
     onError: () => {
       toast.error("Gagal membuat bagan.");
@@ -77,9 +81,19 @@ const DashboardBaganPertandinganFeature = () => {
 
       {data?.data && (
         <section className="mt-4">
-          <h3 className="text-lg font-semibold mb-4">
-            Partisipan - {categoryLabel[kategori]}
-          </h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold mb-4">
+              Partisipan - {categoryLabel[kategori]}
+            </h3>
+            <div>
+              {kategori && statusBagan?.data?.length > 0 && (
+                <BaganStatusBadge
+                  kategori={kategori}
+                  matches={statusBagan.data}
+                />
+              )}
+            </div>
+          </div>
 
           {data.data.length > 0 ? (
             <ScrollArea className="h-[52vh] pr-4">
