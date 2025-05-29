@@ -4,7 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { useShallow } from "zustand/react/shallow";
-import { Map, Users, Menu, Package2, LayoutDashboard } from "lucide-react";
+import {
+  Map,
+  Users,
+  Menu,
+  Package2,
+  LayoutDashboard,
+  Edit,
+} from "lucide-react";
 
 import useAuthStore from "@/hook/useAuth";
 import { Button } from "@/components/ui/button";
@@ -42,6 +49,11 @@ const DashboardWrapper = ({ children }) => {
       title: "Bagan Pertandingan",
       href: "/dashboard/bagan-pertandingan",
       icons: Map,
+    },
+    {
+      title: "Update Bagan Pertandingan",
+      href: "/dashboard/update-bagan-pertandingan",
+      icons: Edit,
     },
   ];
 
