@@ -6,6 +6,13 @@ import useDashboardBaganPertandinganFeature from "@/features/Dashboard/BaganPert
 const BaganCard = ({ category, participant1_info, participant2_info }) => {
   const { categoryLabel } = useDashboardBaganPertandinganFeature();
 
+  const getFotoUrl = (participant) =>
+    participant?.foto
+      ? `http://localhost:3000${participant.foto}`
+      : "/images/placeholder-image.jpg";
+
+  const getNama = (participant) => participant?.nama ?? "TBD";
+
   return (
     <Card className="rounded-2xl shadow-md">
       <CardContent className="p-4">
@@ -15,27 +22,27 @@ const BaganCard = ({ category, participant1_info, participant2_info }) => {
         <div className="flex items-center justify-center gap-6">
           <div className="flex flex-col items-center">
             <img
-              src={`http://localhost:3000${participant1_info.foto}`}
-              alt={participant1_info?.nama || "TBD"}
+              src={getFotoUrl(participant1_info)}
+              alt={getNama(participant1_info)}
               width={80}
               height={80}
               className="rounded-full w-[80px] h-[80px] border-2 border-blue-500 object-cover"
             />
             <p className="mt-2 font-medium text-sm text-center">
-              {participant1_info?.nama}
+              {getNama(participant1_info)}
             </p>
           </div>
           <span className="text-xl font-bold">VS</span>
           <div className="flex flex-col items-center">
             <img
-              src={`http://localhost:3000${participant2_info.foto}`}
-              alt={participant2_info?.nama || "TBD"}
+              src={getFotoUrl(participant2_info)}
+              alt={getNama(participant2_info)}
               width={80}
               height={80}
               className="rounded-full w-[80px] h-[80px] border-2 border-red-500 object-cover"
             />
             <p className="mt-2 font-medium text-sm text-center">
-              {participant2_info?.nama}
+              {getNama(participant2_info)}
             </p>
           </div>
         </div>

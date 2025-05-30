@@ -19,15 +19,18 @@ const BaganSection = () => {
   if (isError) {
     return (
       <div className="p-4 text-center text-red-600">
-        Gagal memuat data bagan dari server.
+        Gagal memuat data bagan dari server
       </div>
     );
   }
 
   if (!data?.data?.length) {
     return (
-      <div className="p-4 text-center text-slate-600">
-        Tidak ada data bagan tersedia saat ini.
+      <div className="container py-8">
+        <h2 className="text-3xl font-bold">Bagan Peserta</h2>
+        <p className="text-center text-slate-600 py-32">
+          Tidak ada data bagan tersedia saat ini
+        </p>
       </div>
     );
   }
