@@ -8,6 +8,8 @@ const useGetBagan = () => {
       const response = await axiosInstance.get("/v1/api/bagan");
       return response.data;
     },
+    refetchInterval: 5000,
+    refetchOnWindowFocus: true,
   });
 };
 

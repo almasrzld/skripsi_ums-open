@@ -27,8 +27,8 @@ const ProfilFeature = () => {
 
             <div className="relative w-full md:w-full h-80 md:h-full flex justify-center md:justify-end">
               <Image
-                src="/images/bg-profil.png"
-                alt="Taekwondo Fighter"
+                src="/images/bg-profil-hero.png"
+                alt="Profil Hero"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-contain"

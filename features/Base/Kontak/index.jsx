@@ -192,7 +192,7 @@ const KontakFeature = () => {
                 <Button
                   type="submit"
                   size="xl"
-                  className="bg-[#3EC1D3] hover:bg-[#36a9b9]"
+                  className="bg-[#3EC1D3] hover:bg-[#36a9b9] cursor-pointer"
                 >
                   Kirim
                 </Button>

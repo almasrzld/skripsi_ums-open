@@ -14,6 +14,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { TableRow, TableCell } from "../ui/table";
 import { toast } from "sonner";
 import useDashboardUpdateBaganPertandingan from "@/features/Dashboard/UpdateBaganPertandingan/hook/usePatchBaganPeserta";
+import { RefreshCcw } from "lucide-react";
+import useResetMatch from "@/hook/useResetMatch";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const winMethods = ["POINTS", "KO", "WO", "DRAW"];
 
@@ -24,6 +32,7 @@ const MatchRow = ({ match, onSuccess }) => {
   const [winMethod, setWinMethod] = useState(match.win_method ?? "POINTS");
 
   const updateMutation = useDashboardUpdateBaganPertandingan();
+  const { mutate, isPending } = useResetMatch();
 
   const handleUpdate = () => {
     if (!winner) {
@@ -91,7 +100,7 @@ const MatchRow = ({ match, onSuccess }) => {
           className="w-20"
         />
       </TableCell>
-      <TableCell className="text-center">vs</TableCell>
+      <TableCell>vs</TableCell>
       <TableCell>
         <Input
           type="number"
@@ -135,16 +144,47 @@ const MatchRow = ({ match, onSuccess }) => {
           )}
         </RadioGroup>
       </TableCell>
-      <TableCell>
-        <Button
-          className="cursor-pointer"
-          variant="update"
-          size="sm"
-          onClick={handleUpdate}
-          disabled={loading || match.status === "COMPLETED"}
-        >
-          {loading ? "Menyimpan..." : "Update"}
-        </Button>
+      <TableCell className="w-28">
+        <div className="flex items-center gap-2">
+          <Button
+            className="cursor-pointer"
+            variant="update"
+            size="sm"
+            onClick={handleUpdate}
+            disabled={loading || match.status === "COMPLETED"}
+          >
+            {loading ? "Menyimpan..." : "Update"}
+          </Button>
+          <TooltipProvider>
+            <Tooltip delayDuration={100}>
+              <TooltipTrigger asChild>
+                <Button
+                  className="cursor-pointer"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => {
+                    mutate(match.id, {
+                      onSuccess: () => {
+                        setScore1(0);
+                        setScore2(0);
+                        setWinner("");
+                        setWinMethod("POINTS");
+
+                        onSuccess?.();
+                      },
+                    });
+                  }}
+                  disabled={isPending}
+                >
+                  <RefreshCcw className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Reset Pertandingan</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </TableCell>
     </TableRow>
   );
