@@ -13,6 +13,8 @@ const useGetPartisipan = (orderId) => {
     enabled: !!orderId,
     refetchInterval: (query) =>
       query?.state?.data?.data?.status !== "PAID" ? 5000 : false,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 };
 
