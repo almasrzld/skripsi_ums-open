@@ -13,8 +13,14 @@ const StatusFeature = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
   const router = useRouter();
-  const { data, isLoading, isError } = useGetPartisipan(orderId);
+  const { data, isLoading, isError, refetch } = useGetPartisipan(orderId);
   const participant = data?.data;
+
+  useEffect(() => {
+    if (orderId) {
+      refetch();
+    }
+  }, [orderId, refetch]);
 
   if (isLoading) {
     return (

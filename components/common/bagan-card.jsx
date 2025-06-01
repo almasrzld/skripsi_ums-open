@@ -8,7 +8,7 @@ const BaganCard = ({ category, participant1_info, participant2_info }) => {
 
   const getFotoUrl = (participant) =>
     participant?.foto
-      ? `http://localhost:3000${participant.foto}`
+      ? `https://backendumsopen-production.up.railway.app/${participant.foto}`
       : "/images/placeholder-image.jpg";
 
   const getNama = (participant) => participant?.nama ?? "TBD";

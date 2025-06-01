@@ -11,6 +11,8 @@ const useGetPartisipan = (orderId) => {
       return response.data;
     },
     enabled: !!orderId,
+    refetchInterval: (query) =>
+      query?.state?.data?.data?.status !== "PAID" ? 5000 : false,
   });
 };
 
