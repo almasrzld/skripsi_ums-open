@@ -18,7 +18,10 @@ const StatusFeature = () => {
 
   useEffect(() => {
     if (orderId) {
-      refetch();
+      const timeout = setTimeout(() => {
+        refetch();
+      }, 3000);
+      return () => clearTimeout(timeout);
     }
   }, [orderId, refetch]);
 
@@ -58,6 +61,11 @@ const StatusFeature = () => {
             <strong>Status:</strong>
             <StatusCard status={participant.status} />
           </div>
+          {participant.status !== "PAID" && (
+            <p className="text-yellow-600 text-sm animate-pulse">
+              Sedang mengecek status pembayaran Anda...
+            </p>
+          )}
         </div>
       </div>
 
