@@ -48,14 +48,14 @@ const HeroSection = () => {
           />
         </div>
       </div>
-      <div className="absolute top-[610px] md:top-[340px] left-[70px] md:left-[440px] bg-[#FF165D] w-10 h-10 rounded-full z-0" />
-      <div className="absolute top-[650px] md:top-[470px] left-[270px] md:left-[35px]">
+      <div className="absolute top-[64%] md:top-[44%] left-[15%] md:left-[29%] bg-[#FF165D] w-8 md:w-10 h-8 md:h-10 rounded-full z-0" />
+      <div className="absolute top-[67%] md:top-[60%] left-[70%] md:left-[2.2%]">
         <div className="flex items-center mt-20 gap-2">
-          <div className="w-4 h-4 bg-[#FF9A00] rounded-full" />
-          <div className="w-4 h-4 bg-[#FF9A00] rounded-full" />
-          <div className="w-4 h-4 bg-[#FF9A00] rounded-full" />
-          <div className="w-4 h-4 bg-[#FF9A00] rounded-full" />
-          <div className="w-4 h-4 bg-[#FF9A00] rounded-full" />
+          <div className="w-2 md:w-4 h-2 md:h-4 bg-[#FF9A00] rounded-full" />
+          <div className="w-2 md:w-4 h-2 md:h-4 bg-[#FF9A00] rounded-full" />
+          <div className="w-2 md:w-4 h-2 md:h-4 bg-[#FF9A00] rounded-full" />
+          <div className="w-2 md:w-4 h-2 md:h-4 bg-[#FF9A00] rounded-full" />
+          <div className="w-2 md:w-4 h-2 md:h-4 bg-[#FF9A00] rounded-full" />
         </div>
       </div>
     </section>

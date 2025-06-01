@@ -116,10 +116,10 @@ const PendaftaranFeature = () => {
         >
           <div className="absolute inset-0 bg-[#3EC1D3]/50 z-0" />
           <div className="relative z-10 max-w-3xl mx-auto">
-            <h1 className="text-5xl font-bold mb-4 leading-tight">
+            <h1 className="text-3xl md:text-6xl font-bold mb-4 leading-tight">
               Daftar Kejuaraan Taekwondo UMS Open
             </h1>
-            <p className="text-lg text-gray-100">
+            <p className="text-md md:text-lg text-gray-100">
               Bergabunglah dalam ajang kompetisi bergengsi dan tunjukkan
               kemampuan terbaikmu!
             </p>
@@ -127,7 +127,9 @@ const PendaftaranFeature = () => {
         </section>
 
         <section className="container py-8">
-          <h2 className="text-3xl font-semibold mb-6">Formulir Pendaftaran</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-6">
+            Formulir Pendaftaran
+          </h2>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit((values) => mutate(values))}
@@ -270,7 +272,9 @@ const PendaftaranFeature = () => {
         </section>
 
         <section className="container space-y-8">
-          <h2 className="text-3xl font-semibold">Informasi Penting</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold">
+            Informasi Penting
+          </h2>
           <ul className="space-y-2 text-gray-700">
             <li>
               <Calendar className="inline-block w-5 h-5 mr-2" />
@@ -288,7 +292,9 @@ const PendaftaranFeature = () => {
         </section>
 
         <section className="container pt-8 space-y-8">
-          <h2 className="text-3xl font-semibold">Timeline Kejuaraan</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold">
+            Timeline Kejuaraan
+          </h2>
           <ol className="border-l-2 border-[#3EC1D3] pl-4 space-y-4">
             <li>
               <strong>1 - 10 Juni:</strong> Pendaftaran Peserta
@@ -306,7 +312,9 @@ const PendaftaranFeature = () => {
         </section>
 
         <section className="container space-y-8 py-8">
-          <h2 className="text-3xl font-semibold">FAQ (Pertanyaan Umum)</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold">
+            FAQ (Pertanyaan Umum)
+          </h2>
           <div className="space-y-4">
             <div>
               <p className="font-semibold">

@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { Instagram, Facebook, Twitter } from "lucide-react";
 
 export default function Footer() {
   const FOOTERLIST = [
@@ -40,7 +40,7 @@ export default function Footer() {
               <div key={index}>
                 <a
                   href={item.path}
-                  className="text-white text-xs md:text-sm hover:text-white/80 transition-all"
+                  className="text-white text-xs md:text-sm hover:text-[#FF165D] transition-all"
                 >
                   {item.name}
                 </a>
@@ -51,30 +51,27 @@ export default function Footer() {
         <hr className="w-full border-t border-neutral-200 my-8" />
         <div className="flex flex-col md:flex-row items-center justify-center md:justify-between text-center md:text-left md:px-11">
           <div className="flex items-center mb-4 md:mb-0 md:pr-[75px]">
-            <h1>UMS</h1>
-            <div className="text-white font-semibold ml-3">Open</div>
+            <h1 className="text-white font-semibold">UMS</h1>
+            <div className="text-[#3EC1D3] font-semibold">Open</div>
           </div>
           <div className="text-white mb-4 md:mb-0 text-center">
             <span className="font-bold">©UMS Open</span> All Rights Reserved.
             Website by Almas Rizaldi
           </div>
           <div className="flex space-x-4">
-            <Link
-              href="https://www.instagram.com/dinsos_surakarta?igsh=MXJ3NHJ4YW1ibTlhbw=="
-              target="_blank"
-            >
+            <Link href="/" target="_blank">
               <div className="bg-white rounded-full p-2 flex items-center justify-center w-12 h-12">
-                Icon IG
+                <Instagram className="w-6 h-6" />
               </div>
             </Link>
             <Link href="/" target="_blank">
               <div className="bg-white rounded-full p-2 flex items-center justify-center w-12 h-12">
-                Icon FB
+                <Facebook className="w-6 h-6" />
               </div>
             </Link>
             <Link href="/" target="_blank">
               <div className="bg-white rounded-full p-2 flex items-center justify-center w-12 h-12">
-                Icon X
+                <Twitter className="w-6 h-6" />
               </div>
             </Link>
           </div>

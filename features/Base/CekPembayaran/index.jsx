@@ -129,10 +129,10 @@ const CekPembayaranFeature = () => {
               </BreadcrumbList>
             </Breadcrumb>
             <div className="pt-14">
-              <h1 className="text-5xl font-bold mb-4 leading-tight">
+              <h1 className="text-3xl md:text-6xl font-bold mb-4 leading-tight">
                 Cek Status Pembayaran
               </h1>
-              <p className="text-lg text-gray-100">
+              <p className="text-md md:text-lg text-gray-100">
                 Cek status pembayaran Anda di sini. Pastikan semua data yang
                 dimasukkan sudah benar.
               </p>
@@ -140,9 +140,9 @@ const CekPembayaranFeature = () => {
           </div>
         </section>
 
-        <section className="max-w-md mx-auto rounded-3xl shadow-xl p-10 my-8">
+        <section className="max-w-sm md:max-w-md mx-auto rounded-3xl shadow-xl p-10 my-8">
           <div className="flex flex-col gap-4 mb-8 text-center">
-            <h2 className="text-3xl font-semibold">
+            <h2 className="text-2xl md:text-3xl font-semibold">
               Status Pembayaran Peserta
             </h2>
             <p className="font-light text-md text-gray-600">

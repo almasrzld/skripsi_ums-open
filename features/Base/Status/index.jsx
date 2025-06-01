@@ -31,7 +31,7 @@ const StatusFeature = () => {
   return (
     <main className="h-screen flex flex-col justify-center text-center py-10 space-y-6 max-w-xl mx-auto">
       <div className="space-y-1">
-        <h1 className="text-3xl font-bold">Status Pendaftaran</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">Status Pendaftaran</h1>
         <p className="text-muted-foreground text-sm">
           Cek status pembayaran dan data partisipan Anda.
         </p>

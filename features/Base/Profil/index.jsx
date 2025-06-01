@@ -72,7 +72,7 @@ const ProfilFeature = () => {
         <div className="flex flex-col gap-4 text-white">
           <h2 className="text-3xl font-bold">Visi & Misi</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div className="flex flex-col bg-[#FF9A00] p-20 text-center gap-2 rounded-2xl shadow-md">
+            <div className="flex flex-col bg-[#FF9A00] p-10 md:p-20 text-center gap-2 rounded-2xl shadow-md">
               <h3 className="font-semibold text-xl">Visi</h3>
               <p className="font-light">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
@@ -84,7 +84,7 @@ const ProfilFeature = () => {
                 repudiandae tempora ut?
               </p>
             </div>
-            <div className="flex flex-col bg-[#FF9A00] p-20 text-center gap-2 rounded-2xl shadow-md">
+            <div className="flex flex-col bg-[#FF9A00] p-10 md:p-20 text-center gap-2 rounded-2xl shadow-md">
               <h3 className="font-semibold text-xl">Misi</h3>
               <p className="font-light">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum

@@ -73,9 +73,9 @@ const KontakFeature = () => {
   return (
     <main>
       <section className="py-48 bg-[#3EC1D3]">
-        <h1 className="text-[4rem] font-normal leading-none tracking-[-0.04em] text-white text-center">
-          Hubungi Taekwondo UMS Open <br />
-          Suarakan Semangat, Raih Prestasi Bersama!
+        <h1 className="text-4xl md:text-[4rem] font-normal leading-none tracking-[-0.04em] text-white text-center">
+          Hubungi Taekwondo <i>UMS Open</i> <br />
+          Suarakan <i>Semangat</i>, Raih Prestasi <i>Bersama!</i>
         </h1>
       </section>
 
@@ -119,8 +119,8 @@ const KontakFeature = () => {
       </section>
 
       <section className="container -mt-48">
-        <div className="w-full p-6 bg-white shadow-2xl rounded-[80px] flex flex-col md:flex-row justify-between gap-4 md:gap-8">
-          <div className="flex-1 flex flex-col gap-6 p-8">
+        <div className="w-full p-4 md:p-6 bg-white shadow-2xl rounded-[80px] flex flex-col md:flex-row justify-between gap-2 md:gap-8">
+          <div className="flex-1 flex flex-col gap-4 md:gap-6 p-6 md:p-8">
             <h2 className="text-3xl font-bold">Kontak Kami</h2>
             <p className="font-light text-base leading-relaxed text-gray-500">
               Silahkan hubungi kami melalui informasi di bawah atau isi formulir
