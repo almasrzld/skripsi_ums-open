@@ -27,7 +27,7 @@ const DashboardPartisipanDetailsFeature = ({ id }) => {
         {partisipan.photo && (
           <div className="shrink-0">
             <img
-              src={`http://localhost:3000${partisipan.photo}`}
+              src={partisipan.photo}
               alt="Foto Partisipan"
               className="w-32 h-32 object-cover rounded-xl border shadow-sm"
             />

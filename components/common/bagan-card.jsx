@@ -7,9 +7,7 @@ const BaganCard = ({ category, participant1_info, participant2_info }) => {
   const { categoryLabel } = useDashboardBaganPertandinganFeature();
 
   const getFotoUrl = (participant) =>
-    participant?.foto
-      ? `https://backendumsopen-production.up.railway.app/${participant.foto}`
-      : "/images/placeholder-image.jpg";
+    participant?.foto ? participant.foto : "/images/placeholder-image.jpg";
 
   const getNama = (participant) => participant?.nama ?? "TBD";
 
