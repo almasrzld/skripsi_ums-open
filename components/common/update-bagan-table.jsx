@@ -5,11 +5,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ScrollArea } from "../ui/scroll-area";
 import MatchRow from "./update-bagan-row";
 
 const MatchTable = ({ matches, onSuccess }) => {
   return (
-    <div className="overflow-x-auto border rounded-md">
+    <ScrollArea className="h-[66vh] pr-4">
       <Table>
         <TableHeader>
           <TableRow>
@@ -30,7 +31,7 @@ const MatchTable = ({ matches, onSuccess }) => {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </ScrollArea>
   );
 };
 

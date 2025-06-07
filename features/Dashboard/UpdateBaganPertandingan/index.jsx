@@ -22,7 +22,7 @@ const DashboardUpdateBaganPertandinganFeature = () => {
   };
 
   return (
-    <main className="p-6">
+    <main>
       <section className="mb-6">
         <h2 className="text-2xl font-bold mb-4">Update Bagan Pertandingan</h2>
 

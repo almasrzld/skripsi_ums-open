@@ -49,7 +49,7 @@ const DashboardPartisipanFeature = () => {
   const currentPage = data?.pagination?.page ?? 1;
 
   return (
-    <main className="p-5">
+    <main>
       <Card>
         <CardContent className="p-4 h-[74vh]">
           <h2 className="text-2xl font-semibold mb-5">Daftar Partisipan</h2>

@@ -16,7 +16,11 @@ const ActionAdminMenu = ({ data, logoutHandler, pathName, pathLink }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="icon" className="rounded-full">
+        <Button
+          variant="secondary"
+          size="icon"
+          className="rounded-full cursor-pointer"
+        >
           <CircleUser className="h-5 w-5" />
           <span className="sr-only">Toggle admin menu</span>
         </Button>
@@ -25,7 +29,9 @@ const ActionAdminMenu = ({ data, logoutHandler, pathName, pathLink }) => {
         <DropdownMenuLabel>{data?.data?.username}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={pathLink}>{pathName}</Link>
+          <Link className="cursor-pointer" href={pathLink}>
+            {pathName}
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
