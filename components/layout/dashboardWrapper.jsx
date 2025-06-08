@@ -1,8 +1,8 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
 import { useShallow } from "zustand/react/shallow";
 import {
   Map,
@@ -101,84 +101,83 @@ const DashboardWrapper = ({ children }) => {
   ];
 
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-muted/40 md:block">
-        <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+    <div className="h-screen overflow-hidden">
+      <div className="fixed left-0 top-0 z-40 h-screen w-[280px] border-r bg-muted/40">
+        <div className="flex h-full flex-col">
+          <div className="flex h-14 items-center border-b px-4">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Package2 className="h-6 w-6" />
               <span>UMS Open</span>
             </Link>
           </div>
-          <div className="flex-1">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              {SIDEBAR_ITEM.map((item, index) =>
-                item.children ? (
-                  <Collapsible
-                    key={index}
-                    open={!!isOpenSub[index]}
-                    onOpenChange={() => toggleOpen(index)}
-                  >
-                    <CollapsibleTrigger asChild>
-                      <button
-                        className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-all cursor-pointer ${
-                          item.children.some((child) => pathname === child.href)
-                            ? "bg-muted"
+          <nav className="flex-1 overflow-y-auto px-4 py-4 text-sm font-medium">
+            {SIDEBAR_ITEM.map((item, index) =>
+              item.children ? (
+                <Collapsible
+                  key={index}
+                  open={!!isOpenSub[index]}
+                  onOpenChange={() => toggleOpen(index)}
+                >
+                  <CollapsibleTrigger asChild>
+                    <button
+                      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-all cursor-pointer ${
+                        item.children.some((child) => pathname === child.href)
+                          ? "bg-muted"
+                          : "text-muted-foreground hover:text-primary"
+                      }`}
+                    >
+                      <item.icons className="h-4 w-4" />
+                      {item.title}
+                      <span className="ml-auto">
+                        {isOpenSub[index] ? (
+                          <ChevronDown className="h-4 w-4" />
+                        ) : (
+                          <ChevronRight className="h-4 w-4" />
+                        )}
+                      </span>
+                    </button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="ml-7 mt-1 space-y-1">
+                    {item.children.map((sub, i) => (
+                      <Link
+                        key={i}
+                        href={sub.href}
+                        className={`flex items-center gap-2 rounded-lg px-3 py-1 transition-all ${
+                          pathname === sub.href
+                            ? "bg-muted text-primary"
                             : "text-muted-foreground hover:text-primary"
                         }`}
                       >
-                        <item.icons className="h-4 w-4" />
-                        {item.title}
-                        <span className="ml-auto">
-                          {isOpenSub[index] ? (
-                            <ChevronDown className="h-4 w-4" />
-                          ) : (
-                            <ChevronRight className="h-4 w-4" />
-                          )}
-                        </span>
-                      </button>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="ml-7 mt-1 space-y-1">
-                      {item.children.map((sub, i) => (
-                        <Link
-                          key={i}
-                          href={sub.href}
-                          className={`flex items-center gap-2 rounded-lg px-3 py-1 transition-all ${
-                            pathname === sub.href
-                              ? "bg-muted text-primary"
-                              : "text-muted-foreground hover:text-primary"
-                          }`}
-                        >
-                          <sub.icons className="h-4 w-4" />
-                          {sub.title}
-                        </Link>
-                      ))}
-                    </CollapsibleContent>
-                  </Collapsible>
-                ) : (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
-                      pathname === item.href
-                        ? "bg-muted text-primary"
-                        : "text-muted-foreground hover:text-primary"
-                    }`}
-                  >
-                    <item.icons className="h-4 w-4" />
-                    {item.title}
-                  </Link>
-                )
-              )}
-            </nav>
-          </div>
+                        <sub.icons className="h-4 w-4" />
+                        {sub.title}
+                      </Link>
+                    ))}
+                  </CollapsibleContent>
+                </Collapsible>
+              ) : (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
+                    pathname === item.href
+                      ? "bg-muted text-primary"
+                      : "text-muted-foreground hover:text-primary"
+                  }`}
+                >
+                  <item.icons className="h-4 w-4" />
+                  {item.title}
+                </Link>
+              )
+            )}
+          </nav>
         </div>
       </div>
-      <div className="flex flex-col">
-        <header className="flex h-14 items-center justify-between gap-4 border-b bg-muted/40 px-4 md:justify-end lg:h-[60px] lg:px-6">
+
+      <div className="ml-[280px] flex flex-col h-screen">
+        <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-muted/40 px-6">
           <div className="flex items-center gap-4">
             <p className="inline-flex">
-              <span className="hidden md:block">UMS Open&nbsp;|&nbsp;</span>
+              <span>UMS Open&nbsp;|&nbsp;</span>
               {data?.data?.username}
             </p>
             <ActionAdminMenu
@@ -189,9 +188,8 @@ const DashboardWrapper = ({ children }) => {
             />
           </div>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          {children}
-        </main>
+
+        <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>
   );

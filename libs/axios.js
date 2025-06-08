@@ -4,11 +4,11 @@ import { APP_URL, LIVE_URL } from "@/constants/config";
 import { getCookie } from "./utils";
 
 export const axiosInstance = axios.create({
-  baseURL: LIVE_URL,
+  baseURL: APP_URL,
 });
 
 export const axiosInstanceToken = axios.create({
-  baseURL: LIVE_URL,
+  baseURL: APP_URL,
   headers: {
     Authorization: `Bearer ${getCookie()}`,
   },
