@@ -174,7 +174,7 @@ const DashboardWrapper = ({ children }) => {
       </div>
 
       <div className="ml-[280px] flex flex-col h-screen">
-        <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-muted/40 px-6">
+        <header className="sticky top-0 z-30 flex h-14 items-center justify-end gap-4 border-b bg-muted/40 px-6">
           <div className="flex items-center gap-4">
             <p className="inline-flex">
               <span>UMS Open&nbsp;|&nbsp;</span>
