@@ -28,7 +28,7 @@ const DashboardLaporanPendaftaranFeature = () => {
               variant="outline"
               className="cursor-pointer"
             >
-              Cetak
+              Cetak Berdasarkan Kategori
             </Button>
           </div>
 
