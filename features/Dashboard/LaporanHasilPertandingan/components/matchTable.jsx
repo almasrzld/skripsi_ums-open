@@ -9,15 +9,28 @@ import {
 import { cn } from "@/libs/utils";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
+import { exportMatchReportByCategory } from "@/libs/export-excel-laporan-hasil-pertandingan";
+import { Button } from "@/components/ui/button";
 
 export function MatchReportTable({ data }) {
   return (
     <div className="space-y-10">
       {data.map((category) => (
         <div key={category.categories} className="border py-3 px-4 rounded-2xl">
-          <h2 className="text-xl font-semibold mb-4">
-            Laporan Hasil Pertandingan - {category.categories}
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold mb-4">
+              Laporan Hasil Pertandingan - {category.categories}
+            </h2>
+            <Button
+              onClick={() =>
+                exportMatchReportByCategory(category.categories, category.data)
+              }
+              variant="update"
+              className="cursor-pointer"
+            >
+              Cetak
+            </Button>
+          </div>
 
           {category.data.map((round) => (
             <div key={round.title} className="mb-8">
