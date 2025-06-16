@@ -23,6 +23,10 @@ export default function Footer() {
       name: "Kontak",
       path: "/kontak",
     },
+    {
+      name: "Panduan",
+      path: "/panduan-pengguna",
+    },
   ];
 
   return (
@@ -50,13 +54,13 @@ export default function Footer() {
         </div>
         <hr className="w-full border-t border-neutral-200 my-8" />
         <div className="flex flex-col md:flex-row items-center justify-center md:justify-between text-center md:text-left md:px-11">
-          <div className="flex items-center mb-4 md:mb-0 md:pr-[75px]">
+          <div className="flex items-center mb-4 md:mb-0 md:pr-[75px] text-3xl">
             <h1 className="text-white font-semibold">UMS</h1>
             <div className="text-[#3EC1D3] font-semibold">Open</div>
           </div>
           <div className="text-white mb-4 md:mb-0 text-center">
             <span className="font-bold">©UMS Open</span> All Rights Reserved.
-            Website by Almas Rizaldi
+            System Information by Almas Rizaldi
           </div>
           <div className="flex space-x-4">
             <Link href="/" target="_blank">

@@ -37,7 +37,9 @@ const Navbar = () => {
     {
       name: "Pendaftaran",
       path: "/pendaftaran",
-      submenu: [{ name: "Cek Pembayaran", path: "/pendaftaran/cek-pembayaran" }],
+      submenu: [
+        { name: "Cek Pembayaran", path: "/pendaftaran/cek-pembayaran" },
+      ],
     },
     {
       name: "Bagan",
@@ -46,6 +48,10 @@ const Navbar = () => {
     {
       name: "Kontak",
       path: "/kontak",
+    },
+    {
+      name: "Panduan",
+      path: "/panduan-pengguna",
     },
   ];
 
