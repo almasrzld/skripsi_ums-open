@@ -13,9 +13,18 @@ import {
 } from "@/components/ui/table";
 import useGetAllPartisipan from "../LaporanPendaftaran/hook/useGetAllPartisipan";
 import { exportAllPembayaran } from "@/libs/export-excel-laporan-pembayaran";
+import useDashboardPartisipanFeature from "../Partisipan/hook";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 const DashboardLaporanPembayaranFeature = () => {
-  const { data, isLoading } = useGetAllPartisipan();
+  const { status, setStatus } = useDashboardPartisipanFeature();
+  const { data, isLoading } = useGetAllPartisipan(status);
 
   return (
     <main>
@@ -23,13 +32,26 @@ const DashboardLaporanPembayaranFeature = () => {
         <CardContent>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-semibold">Laporan Pembayaran</h2>
-            <Button
-              onClick={() => exportAllPembayaran(data?.data)}
-              variant="outline"
-              className="cursor-pointer"
-            >
-              Cetak
-            </Button>
+            <span className="flex items-center gap-4">
+              <Select value={status} onValueChange={setStatus}>
+                <SelectTrigger className="w-[120px]">
+                  <SelectValue placeholder="Filter Status Bayar" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ALL">Semua</SelectItem>
+                  <SelectItem value="PAID">Lunas</SelectItem>
+                  <SelectItem value="PENDING_PAYMENT">Pending</SelectItem>
+                  <SelectItem value="CANCELED">Dibatalkan</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button
+                onClick={() => exportAllPembayaran(data?.data)}
+                variant="outline"
+                className="cursor-pointer"
+              >
+                Cetak
+              </Button>
+            </span>
           </div>
 
           <ScrollArea className="rounded border h-[68vh]">
@@ -50,6 +72,15 @@ const DashboardLaporanPembayaranFeature = () => {
                   <TableRow>
                     <TableCell colSpan={7} className="text-center">
                       Loading...
+                    </TableCell>
+                  </TableRow>
+                ) : data?.data?.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={7}
+                      className="text-center text-muted-foreground"
+                    >
+                      {data?.message ?? "Data tidak ditemukan."}
                     </TableCell>
                   </TableRow>
                 ) : (
