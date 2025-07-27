@@ -23,7 +23,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const winMethods = ["POINTS", "KO", "WO", "DRAW"];
+const winMethods = ["POINTS", "KO", "WO"];
 
 const MatchRow = ({ match, onSuccess }) => {
   const [score1, setScore1] = useState(match.score1 ?? 0);
