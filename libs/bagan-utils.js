@@ -60,8 +60,8 @@ export function remapCompetitionDataByCategoryEnhanced(matches) {
         return {
           title:
             roundNumber === "ThirdPlace"
-              ? "Third Place Match"
-              : `Round ${roundNumber}`,
+              ? "Third Place"
+              : `Babak ${roundNumber}`,
           seeds,
         };
       });

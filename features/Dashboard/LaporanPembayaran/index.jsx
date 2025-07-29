@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useGetAllPartisipan from "../LaporanPendaftaran/hook/useGetAllPartisipan";
-import { exportAllPembayaran } from "@/libs/export-excel-laporan-pembayaran";
+import { exportAllPembayaran } from "@/libs/export-pdf-laporan-pembayaran";
 import useDashboardPartisipanFeature from "../Partisipan/hook";
 import {
   Select,

@@ -23,19 +23,20 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const winMethods = ["POINTS", "KO", "WO"];
+const winMethods = ["POINTS", "KO", "WO", "DRAW"];
 
 const MatchRow = ({ match, onSuccess }) => {
   const [score1, setScore1] = useState(match.score1 ?? 0);
   const [score2, setScore2] = useState(match.score2 ?? 0);
   const [winner, setWinner] = useState(match.winner ?? "");
   const [winMethod, setWinMethod] = useState(match.win_method ?? "POINTS");
+  const [isUpdated, setIsUpdated] = useState(false);
 
   const updateMutation = useDashboardUpdateBaganPertandingan();
   const { mutate, isPending } = useResetMatch();
 
   const handleUpdate = () => {
-    if (!winner) {
+    if (winMethod !== "DRAW" && !winner) {
       toast.error("Pilih pemenang terlebih dahulu");
       return;
     }
@@ -45,34 +46,39 @@ const MatchRow = ({ match, onSuccess }) => {
       return;
     }
 
+    const status = winMethod === "DRAW" ? "ONGOING" : "COMPLETED";
+
     updateMutation.mutate(
       {
         id: match.id,
         payload: {
           score1,
           score2,
-          winner,
+          winner: winMethod === "DRAW" ? null : winner,
           win_method: winMethod,
-          status: "COMPLETED",
+          status,
         },
       },
       {
         onSuccess: () => {
           onSuccess?.();
+          if (!isDraw) setIsUpdated(true);
         },
       }
     );
   };
 
   const autoSetWinner = (newScore1, newScore2) => {
-    if (winMethod !== "POINTS") return;
-
-    if (newScore1 > newScore2) {
-      setWinner(match.participant1 ?? "");
-    } else if (newScore2 > newScore1) {
-      setWinner(match.participant2 ?? "");
-    } else {
+    if (newScore1 === newScore2) {
+      setWinMethod("DRAW");
       setWinner("");
+    } else {
+      setWinMethod("POINTS");
+      if (newScore1 > newScore2) {
+        setWinner(match.participant1 ?? "");
+      } else {
+        setWinner(match.participant2 ?? "");
+      }
     }
   };
 
@@ -87,10 +93,14 @@ const MatchRow = ({ match, onSuccess }) => {
   };
 
   const loading = updateMutation.isPending;
+  const isDraw = score1 === score2 && winMethod === "DRAW";
+  const isCompleted = match.status === "COMPLETED";
 
   return (
     <TableRow>
-      <TableCell className="font-medium">{match.round}</TableCell>
+      <TableCell className="font-medium">
+        {match.isThirdPlace ? "Third Place" : match.round}
+      </TableCell>
       <TableCell>{match.participant1 || "-"}</TableCell>
       <TableCell>
         <Input
@@ -129,6 +139,7 @@ const MatchRow = ({ match, onSuccess }) => {
           value={winner}
           onValueChange={setWinner}
           className="flex gap-2 items-center"
+          disabled={winMethod === "DRAW"}
         >
           {match.participant1 && (
             <div className="flex items-center space-x-1">
@@ -151,7 +162,7 @@ const MatchRow = ({ match, onSuccess }) => {
             variant="update"
             size="sm"
             onClick={handleUpdate}
-            disabled={loading || match.status === "COMPLETED"}
+            disabled={!isDraw && (loading || isUpdated || isCompleted)}
           >
             {loading ? "Menyimpan..." : "Update"}
           </Button>

@@ -7,6 +7,9 @@ import {
 } from "@/libs/bagan-utils";
 import { useEffect, useState } from "react";
 
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
 import {
   Table,
   TableBody,
@@ -16,7 +19,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import * as XLSX from "xlsx";
 
 import { Trophy, Medal, Award, Users, TrendingUp, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -42,92 +44,86 @@ const DashboardLaporanRekapJuaraFeature = () => {
     setAnimateCards(true);
   }, []);
 
-  const exportCategoryToExcel = (category) => {
-    const worksheetData = [];
+  const exportCategoryToPDF = (category) => {
+    const doc = new jsPDF("p", "pt", "a4");
 
-    // Add header
-    worksheetData.push(["Juara", "Nama", "ID", "Institusi", "Poin"]);
+    doc.setFontSize(16);
+    doc.text(`Rekap Juara - ${category.categories}`, 40, 40);
 
-    // Add winners data
-    ["winner1", "winner2", "winner3"].forEach((key, index) => {
+    const tableData = ["winner1", "winner2", "winner3"].map((key, index) => {
       const juaraKe = index + 1;
       const winner = category.winners?.[key];
       const points = juaraKe === 1 ? 3 : juaraKe === 2 ? 2 : 1;
 
-      worksheetData.push([
-        `Juara ${juaraKe}`,
+      return [
+        `Juara ${juaraKe} (${points}p)`,
         winner?.name || "-",
         winner?.id || "-",
         winner?.institution || "-",
-        `${points}p`,
-      ]);
+      ];
     });
 
-    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, category.categories);
+    autoTable(doc, {
+      startY: 60,
+      head: [["Juara", "Nama", "ID", "Institusi"]],
+      body: tableData,
+      theme: "grid",
+      headStyles: { fillColor: [62, 193, 211] },
+      styles: { fontSize: 10, cellPadding: 4 },
+    });
 
-    const filename = `Rekap_Juara_${category.categories}_${
-      new Date().toISOString().split("T")[0]
-    }.xlsx`;
-    XLSX.writeFile(workbook, filename);
+    doc.save(`Rekap_Juara_${category.categories}.pdf`);
   };
 
-  const exportAllToExcel = () => {
-    const workbook = XLSX.utils.book_new();
+  const exportAllToPDF = () => {
+    const doc = new jsPDF("p", "pt", "a4");
 
-    remappingData.forEach((category) => {
-      const worksheetData = [];
-      worksheetData.push(["Juara", "Nama", "ID", "Institusi", "Poin"]);
+    remappingData.forEach((category, idx) => {
+      if (idx !== 0) doc.addPage();
 
-      ["winner1", "winner2", "winner3"].forEach((key, index) => {
+      doc.setFontSize(16);
+      doc.text(`Rekap Juara - ${category.categories}`, 40, 40);
+
+      const tableData = ["winner1", "winner2", "winner3"].map((key, index) => {
         const juaraKe = index + 1;
         const winner = category.winners?.[key];
         const points = juaraKe === 1 ? 3 : juaraKe === 2 ? 2 : 1;
 
-        worksheetData.push([
-          `Juara ${juaraKe}`,
+        return [
+          `Juara ${juaraKe} (${points}p)`,
           winner?.name || "-",
           winner?.id || "-",
           winner?.institution || "-",
-          `${points}p`,
-        ]);
+        ];
       });
 
-      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-      const sheetName = category.categories
-        .substring(0, 31)
-        .replace(/[\\/:*?[\]]/g, "_");
-      XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+      autoTable(doc, {
+        startY: 60,
+        head: [["Juara", "Nama", "ID", "Institusi"]],
+        body: tableData,
+        theme: "grid",
+        headStyles: { fillColor: [62, 193, 211] },
+        styles: { fontSize: 10, cellPadding: 4 },
+      });
     });
 
-    const filename = `Rekap_Juara_Semua_Kategori_${
-      new Date().toISOString().split("T")[0]
-    }.xlsx`;
-    XLSX.writeFile(workbook, filename);
+    doc.save(`Rekap_Juara_Semua_Kategori.pdf`);
   };
 
-  const exportSummaryToExcel = () => {
-    const worksheetData = [];
+  const exportSummaryToPDF = () => {
+    const doc = new jsPDF("l", "pt", "a4");
 
-    // Add header
-    worksheetData.push([
-      "Kategori",
-      "Juara",
-      "Nama",
-      "ID",
-      "Institusi",
-      "Poin",
-    ]);
+    doc.setFontSize(16);
+    doc.text("Rekap Juara - Summary", 40, 40);
 
-    // Add all winners data
+    const body = [];
     remappingData.forEach((category) => {
       ["winner1", "winner2", "winner3"].forEach((key, index) => {
         const juaraKe = index + 1;
         const winner = category.winners?.[key];
         const points = juaraKe === 1 ? 3 : juaraKe === 2 ? 2 : 1;
 
-        worksheetData.push([
+        body.push([
           category.categories,
           `Juara ${juaraKe}`,
           winner?.name || "-",
@@ -138,69 +134,52 @@ const DashboardLaporanRekapJuaraFeature = () => {
       });
     });
 
-    worksheetData.push([]);
-    worksheetData.push(["", "", "", "", "", ""]); // Empty row for spacing
-    worksheetData.push(["Rekap Pemenang", "", "", "", "", ""]);
-    worksheetData.push([
-      "Institusi",
-      "Poin",
-      "Total Pemenang",
-      "Kategori",
-      "Rincian",
-      "Poin Tertinggi",
-    ]);
-    winnerData.forEach((item) => {
-      worksheetData.push([
-        item.institution,
-        item.points,
-        item.details.totalWinners,
-        item.details.achievements
-          .map((ach) => ach.category.replace("_", " "))
-          .join(", "),
-        item.details.achievements
-          .map((ach) => `${ach.winner} (${getPositionLabel(ach.position)})`)
-          .join(", "),
-        Math.max(...item.details.achievements.map((ach) => ach.points)),
-      ]);
+    autoTable(doc, {
+      startY: 60,
+      head: [["Kategori", "Juara", "Nama", "ID", "Institusi", "Poin"]],
+      body,
+      theme: "grid",
+      headStyles: { fillColor: [62, 193, 211] },
+      styles: { fontSize: 8, cellPadding: 3 },
     });
 
-    // Add summary statistics
-    worksheetData.push([]);
+    // Tambah halaman untuk ringkasan institusi
+    doc.addPage();
+    doc.setFontSize(14);
+    doc.text("Rekap Pemenang Per Institusi", 40, 40);
 
-    worksheetData.push(["Total Institusi", winnerData.length, "", "", "", ""]);
-    worksheetData.push([
-      "Total Kategori",
-      remappingData.length,
-      "",
-      "",
-      "",
-      "",
-    ]);
-    worksheetData.push([
-      "Total Pemenang",
-      winnerData.reduce((sum, item) => sum + item.details.totalWinners, 0),
-      "",
-      "",
-      "",
-      "",
-    ]);
-    worksheetData.push([
-      "Poin Tertinggi",
-      Math.max(...winnerData.map((item) => item.points)),
-      "",
-      "",
-      "",
-      "",
+    const summaryBody = winnerData.map((item) => [
+      item.institution,
+      item.points,
+      item.details.totalWinners,
+      item.details.achievements
+        .map((ach) => ach.category.replace("_", " "))
+        .join(", "),
+      item.details.achievements
+        .map((ach) => `${ach.winner} (${ach.position})`)
+        .join(", "),
+      Math.max(...item.details.achievements.map((ach) => ach.points)),
     ]);
 
-    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Summary");
+    autoTable(doc, {
+      startY: 60,
+      head: [
+        [
+          "Institusi",
+          "Poin",
+          "Total Pemenang",
+          "Kategori",
+          "Rincian",
+          "Poin Tertinggi",
+        ],
+      ],
+      body: summaryBody,
+      styles: { fontSize: 7 },
+      headStyles: { fillColor: [62, 193, 211] },
+      theme: "grid",
+    });
 
-    const filename = `Rekap_Juara_Summary_${
-      new Date().toISOString().split("T")[0]
-    }.xlsx`;
-    XLSX.writeFile(workbook, filename);
+    doc.save(`Rekap_Juara_Summary.pdf`);
   };
 
   const getMedalIcon = (rank) => {
@@ -473,7 +452,7 @@ const DashboardLaporanRekapJuaraFeature = () => {
           <p className="text-xl  mb-2">Data Table</p>
           <div className="flex gap-2">
             <Button
-              onClick={exportSummaryToExcel}
+              onClick={exportSummaryToPDF}
               variant="update"
               className="cursor-pointer"
             >
@@ -481,7 +460,7 @@ const DashboardLaporanRekapJuaraFeature = () => {
               Cetak Laporan
             </Button>
             <Button
-              onClick={exportAllToExcel}
+              onClick={exportAllToPDF}
               variant="secondary"
               className="cursor-pointer"
             >
@@ -499,7 +478,7 @@ const DashboardLaporanRekapJuaraFeature = () => {
                   variant="outline"
                   size="sm"
                   className="ml-2 cursor-pointer"
-                  onClick={() => exportCategoryToExcel(category)}
+                  onClick={() => exportCategoryToPDF(category)}
                 >
                   <FileSpreadsheet className="w-4 h-4 mr-1" />
                   Cetak

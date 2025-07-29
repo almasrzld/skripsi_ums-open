@@ -13,8 +13,8 @@ const useDashboardUpdateBaganPertandingan = () => {
       );
       return data;
     },
-    onSuccess: () => {
-      toast.success("Hasil pertandingan berhasil diupdate.");
+    onSuccess: (value) => {
+      toast.success(value.message);
       queryClient.invalidateQueries({ queryKey: ["bagan-category"] });
     },
     onError: () => {

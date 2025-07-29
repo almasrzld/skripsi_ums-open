@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useGetAllPartisipan from "./hook/useGetAllPartisipan";
-import { exportAllParticipants } from "@/libs/export-excel-laporan-pendaftaran";
+import { exportAllParticipants } from "@/libs/export-pdf-laporan-pendaftaran";
 
 const DashboardLaporanPendaftaranFeature = () => {
   const { data, isLoading } = useGetAllPartisipan();

@@ -14,7 +14,7 @@ const MatchTable = ({ matches, onSuccess }) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Round</TableHead>
+            <TableHead>Babak</TableHead>
             <TableHead>Peserta 1</TableHead>
             <TableHead>Skor 1</TableHead>
             <TableHead></TableHead>

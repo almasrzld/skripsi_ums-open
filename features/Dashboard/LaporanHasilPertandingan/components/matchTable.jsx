@@ -9,7 +9,7 @@ import {
 import { cn } from "@/libs/utils";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { exportMatchReportByCategory } from "@/libs/export-excel-laporan-hasil-pertandingan";
+import { exportMatchReportByCategory } from "@/libs/export-pdf-laporan-hasil-pertandingan";
 import { Button } from "@/components/ui/button";
 
 export function MatchReportTable({ data }) {
