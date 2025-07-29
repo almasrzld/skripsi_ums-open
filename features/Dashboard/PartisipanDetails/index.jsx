@@ -7,7 +7,7 @@ import useParticipantLabels from "./hook";
 
 const DashboardPartisipanDetailsFeature = ({ id }) => {
   const { data, isLoading } = useGetPartisipanDetailsById(id);
-  const { getCategoryLabel, getStatusLabel } = useParticipantLabels();
+  const { getStatusLabel } = useParticipantLabels();
 
   if (isLoading) return <div className="text-center py-6">Loading...</div>;
   if (!data || !data.data)
@@ -18,7 +18,6 @@ const DashboardPartisipanDetailsFeature = ({ id }) => {
     );
 
   const partisipan = data.data;
-  const labelKategori = getCategoryLabel(partisipan.user_category);
   const status = getStatusLabel(partisipan.status);
 
   return (
@@ -53,7 +52,7 @@ const DashboardPartisipanDetailsFeature = ({ id }) => {
           <InfoRow
             icon={<LayoutList className="w-4 h-4" />}
             label="Kategori"
-            value={labelKategori}
+            value={partisipan.category.label}
           />
           <InfoRow
             icon={<Phone className="w-4 h-4" />}

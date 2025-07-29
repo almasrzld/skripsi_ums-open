@@ -30,12 +30,10 @@ import {
   DialogTrigger,
   DialogTitle,
 } from "@/components/ui/dialog";
-import useParticipantLabels from "../PartisipanDetails/hook";
 
 const DashboardPartisipanFeature = () => {
   const { page, setPage, limit, search, setSearch, value, status, setStatus } =
     useDashboardPartisipanFeature();
-  const { getCategoryLabel } = useParticipantLabels();
 
   const { data, isLoading } = useGetPartisipanDetails(
     page,
@@ -101,7 +99,7 @@ const DashboardPartisipanFeature = () => {
                   participants.map((p) => (
                     <TableRow key={p.id}>
                       <TableCell>{p.user_name}</TableCell>
-                      <TableCell>{getCategoryLabel(p.user_category)}</TableCell>
+                      <TableCell>{p.category?.label}</TableCell>
                       <TableCell>{p.user_institution}</TableCell>
                       <TableCell>{p.user_phone}</TableCell>
                       <TableCell>

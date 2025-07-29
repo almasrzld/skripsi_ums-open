@@ -27,12 +27,13 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import useGetKategori from "@/features/Dashboard/Kategori/hook/useGetKategori";
 
 const pendaftaranSchema = z.object({
   user_name: z.string().min(1, "Nama lengkap wajib diisi"),
   user_email: z.string().email("Email tidak valid"),
   user_phone: z.string().min(10, "Nomor HP tidak valid"),
-  user_category: z.string().min(1, "Kategori harus dipilih"),
+  categoryId: z.string().min(1, "Kategori kejuaraan wajib dipilih"),
   user_institution: z.string().min(1, "Asal instansi wajib diisi"),
   photo: z
     .any()
@@ -50,13 +51,14 @@ const pendaftaranSchema = z.object({
 });
 
 const PendaftaranFeature = () => {
+  const { data: kategoriList } = useGetKategori();
   const form = useForm({
     resolver: zodResolver(pendaftaranSchema),
     defaultValues: {
       user_name: "",
       user_email: "",
       user_phone: "",
-      user_category: "",
+      categoryId: "",
       user_institution: "",
       photo: undefined,
       user_message: "",
@@ -69,7 +71,7 @@ const PendaftaranFeature = () => {
       formData.append("user_name", values.user_name);
       formData.append("user_email", values.user_email);
       formData.append("user_phone", values.user_phone);
-      formData.append("user_category", values.user_category);
+      formData.append("categoryId", values.categoryId);
       formData.append("user_institution", values.user_institution);
       formData.append("user_message", values.user_message || "");
       formData.append("photo", values.photo);
@@ -132,7 +134,10 @@ const PendaftaranFeature = () => {
           </h2>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit((values) => mutate(values))}
+              onSubmit={form.handleSubmit((values) => {
+                console.log("values", values); // ⬅️ Tambahkan di sini untuk debug
+                mutate(values);
+              })}
               className="grid grid-cols-1 md:grid-cols-2 gap-6"
             >
               <FormField
@@ -189,29 +194,25 @@ const PendaftaranFeature = () => {
               />
               <FormField
                 control={form.control}
-                name="user_category"
+                name="categoryId"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Kategori Kejuaraan</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value ?? ""}
+                    >
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Pilih kategori" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="UNDER_55KG_PUTRA">
-                          Under 55kg Putra
-                        </SelectItem>
-                        <SelectItem value="UNDER_55KG_PUTRI">
-                          Under 55kg Putri
-                        </SelectItem>
-                        <SelectItem value="POOMSAE_JUNIOR">
-                          Poomsae Junior
-                        </SelectItem>
-                        <SelectItem value="KYORUGI_SENIOR">
-                          Kyorugi Senior
-                        </SelectItem>
+                        {kategoriList?.data.map((item) => (
+                          <SelectItem key={item.id} value={item.id}>
+                            {item.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />

@@ -7,6 +7,7 @@ import { useShallow } from "zustand/react/shallow";
 import {
   Map,
   Users,
+  ChartBarStacked,
   Package2,
   LayoutDashboard,
   Edit,
@@ -61,6 +62,11 @@ const DashboardWrapper = ({ children }) => {
       title: "Partisipan",
       href: "/dashboard/partisipan",
       icons: Users,
+    },
+    {
+      title: "Kategori",
+      href: "/dashboard/kategori",
+      icons: ChartBarStacked,
     },
     {
       title: "Bagan Pertandingan",
