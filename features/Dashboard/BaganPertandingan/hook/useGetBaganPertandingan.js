@@ -1,21 +1,21 @@
 import { axiosInstance } from "@/libs/axios";
 import { useQuery } from "@tanstack/react-query";
 
-const useGetBaganPertandingan = (category) => {
+const useGetBaganPertandingan = (categoryId) => {
   return useQuery({
-    queryKey: ["bagan-pertandingan", category],
+    queryKey: ["bagan-pertandingan", categoryId],
     queryFn: async () => {
       const response = await axiosInstance.get(
         "/v1/api/partisipan/by-category",
         {
           params: {
-            category,
+            categoryId,
           },
         }
       );
       return response.data;
     },
-    enabled: !!category,
+    enabled: !!categoryId,
   });
 };
 

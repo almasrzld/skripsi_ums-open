@@ -2,7 +2,7 @@
 
 import MatchTable from "@/components/common/update-bagan-table";
 import useGetBaganByCategory from "./hook/useGetBaganByCategory";
-import useDashboardBaganPertandinganFeature from "../BaganPertandingan/hook";
+import useGetKategori from "../Kategori/hook/useGetKategori";
 import {
   Select,
   SelectTrigger,
@@ -11,10 +11,11 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import DeleteBaganButton from "../DeleteBaganPertandingan";
+import { useState } from "react";
 
 const DashboardUpdateBaganPertandinganFeature = () => {
-  const { kategori, setKategori, categoryLabel } =
-    useDashboardBaganPertandinganFeature();
+  const [kategori, setKategori] = useState("");
+  const { data: kategoriData } = useGetKategori();
   const { data, refetch, isLoading, error } = useGetBaganByCategory(kategori);
 
   const handleCategoryChange = (value) => {
@@ -30,13 +31,13 @@ const DashboardUpdateBaganPertandinganFeature = () => {
           <Select onValueChange={handleCategoryChange}>
             <SelectTrigger className="w-[250px]">
               <SelectValue placeholder="Pilih Kategori">
-                {kategori ? categoryLabel[kategori] : "Pilih Kategori"}
+                {kategori ? kategoriData[kategori] : "Pilih Kategori"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              {Object.entries(categoryLabel).map(([key, label]) => (
-                <SelectItem key={key} value={key}>
-                  {label}
+              {kategoriData?.data?.map((item) => (
+                <SelectItem key={item.id} value={item.id}>
+                  {item.label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -45,7 +46,10 @@ const DashboardUpdateBaganPertandinganFeature = () => {
             <DeleteBaganButton
               category={kategori}
               onSuccess={refetch}
-              disabled={!data?.data || data.data.length === 0}
+              disabled={
+                !data?.data?.matchesWithInfo ||
+                data.data.matchesWithInfo.length === 0
+              }
             />
           )}
         </div>
@@ -56,10 +60,12 @@ const DashboardUpdateBaganPertandinganFeature = () => {
         <p className="text-destructive text-center">Gagal mengambil data</p>
       )}
 
-      {data?.data?.length > 0 ? (
-        <MatchTable matches={data.data} onSuccess={refetch} />
+      {data?.data?.matchesWithInfo?.length > 0 ? (
+        <MatchTable matches={data.data.matchesWithInfo} onSuccess={refetch} />
       ) : (
-        <p className="text-muted-foreground">Belum ada pertandingan.</p>
+        !isLoading && (
+          <p className="text-muted-foreground">Belum ada pertandingan.</p>
+        )
       )}
     </main>
   );

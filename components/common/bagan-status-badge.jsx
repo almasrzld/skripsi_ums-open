@@ -44,7 +44,7 @@ const formatStatusLabel = (status) => {
 };
 
 const BaganStatusBadge = ({ kategori, matches }) => {
-  const kategoriMatches = matches.filter((m) => m.category === kategori);
+  const kategoriMatches = matches.filter((m) => m.categoryId === kategori);
   const status = getKategoriStatus(kategoriMatches);
 
   return (

@@ -8,7 +8,6 @@ import { Loader2, Trophy } from "lucide-react";
 import { remapCompetitionDataByCategoryEnhanced } from "@/libs/bagan-utils";
 import { motion } from "framer-motion";
 import useGetStatistik from "@/hook/useGetStatistik";
-import useDashboardBaganPertandinganFeature from "@/features/Dashboard/BaganPertandingan/hook";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const BaganFeature = () => {
@@ -16,11 +15,18 @@ const BaganFeature = () => {
   const { data, isLoading, isError } = useGetBagan();
   const { data: statistikData, isLoading: statistikLoading } =
     useGetStatistik();
-  const { categoryLabel } = useDashboardBaganPertandinganFeature();
 
   useEffect(() => {
     if (data?.data) {
-      const categoriesData = remapCompetitionDataByCategoryEnhanced(data.data);
+      // Flatten semua match dan tambahkan field category
+      const allMatches = data.data.flatMap((category) =>
+        category.matches.map((m) => ({
+          ...m,
+          category: category.label, // untuk dipakai di remap
+        }))
+      );
+
+      const categoriesData = remapCompetitionDataByCategoryEnhanced(allMatches);
       setIsRemappingData(categoriesData.data);
     }
   }, [data]);
@@ -96,7 +102,7 @@ const BaganFeature = () => {
             return (
               <div key={index} className="mb-16">
                 <h2 className="text-3xl font-bold  mb-4">
-                  Kategori {categoryLabel[category.categories]}
+                  Kategori {category.categories}
                 </h2>
                 <ScrollArea className="w-full overflow-auto">
                   <div className="min-w-[600px] pb-4 md:pb-0">

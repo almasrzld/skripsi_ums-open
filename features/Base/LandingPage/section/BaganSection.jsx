@@ -39,9 +39,20 @@ const BaganSection = () => {
     <section className="container py-8">
       <h2 className="text-3xl font-bold">Bagan Peserta</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-4">
-        {data.data.slice(0, 4).map((item, index) => (
-          <BaganCard key={index} {...item} />
-        ))}
+        {data.data
+          .slice(0, 4)
+          .flatMap(
+            (category, index) =>
+              category.matches
+                ?.slice(0, 1)
+                .map((match, i) => (
+                  <BaganCard
+                    key={`${category.categoryId}-${match.id}`}
+                    label={category.label}
+                    match={match}
+                  />
+                )) ?? []
+          )}
       </div>
       <Button className="cursor-pointer">
         <Link href="/bagan">Selengkapnya</Link>

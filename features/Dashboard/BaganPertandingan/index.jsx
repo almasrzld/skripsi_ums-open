@@ -15,25 +15,27 @@ import { useMutation } from "@tanstack/react-query";
 import { axiosInstance } from "@/libs/axios";
 import { toast } from "sonner";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import useDashboardBaganPertandinganFeature from "./hook";
-import useGetBagan from "@/hook/useGetBagan";
+import useGetKategori from "../Kategori/hook/useGetKategori";
 import BaganStatusBadge from "@/components/common/bagan-status-badge";
+import { useState } from "react";
+import useGetBaganByCategory from "../UpdateBaganPertandingan/hook/useGetBaganByCategory";
 
 const DashboardBaganPertandinganFeature = () => {
-  const { kategori, setKategori, categoryLabel } =
-    useDashboardBaganPertandinganFeature();
+  const [kategori, setKategori] = useState("");
+  const { data: kategoriData } = useGetKategori();
   const { data, isLoading, error } = useGetBaganPertandingan(kategori);
-  const { data: statusBagan, refetch: refetchStatusBagan } = useGetBagan();
+  const { data: statusBagan, refetch: refetchStatusBagan } =
+    useGetBaganByCategory(kategori);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (category) => {
+    mutationFn: async (categoryId) => {
       const response = await axiosInstance.post("/v1/api/bagan", {
-        category,
+        categoryId,
       });
       return response.data;
     },
-    onSuccess: () => {
-      toast.success("Bagan berhasil dibuat!");
+    onSuccess: (value) => {
+      toast.success(value.message);
       refetchStatusBagan();
     },
     onError: () => {
@@ -61,13 +63,13 @@ const DashboardBaganPertandinganFeature = () => {
         <Select onValueChange={handleCategoryChange}>
           <SelectTrigger className="w-[250px]">
             <SelectValue placeholder="Pilih Kategori">
-              {kategori ? categoryLabel[kategori] : "Pilih Kategori"}
+              {kategori ? kategoriData[kategori] : "Pilih Kategori"}
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {Object.entries(categoryLabel).map(([key, label]) => (
-              <SelectItem key={key} value={key}>
-                {label}
+            {kategoriData?.data?.map((item) => (
+              <SelectItem key={item.id} value={item.id}>
+                {item.label}
               </SelectItem>
             ))}
           </SelectContent>
@@ -83,13 +85,14 @@ const DashboardBaganPertandinganFeature = () => {
         <section className="mt-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold mb-4">
-              Partisipan - {categoryLabel[kategori]}
+              Partisipan -{" "}
+              {kategoriData.data.find((cat) => cat.id === kategori)?.label}
             </h3>
             <div>
-              {kategori && statusBagan?.data?.length > 0 && (
+              {kategori && statusBagan?.data?.matchesWithInfo?.length > 0 && (
                 <BaganStatusBadge
                   kategori={kategori}
-                  matches={statusBagan.data}
+                  matches={statusBagan.data.matchesWithInfo}
                 />
               )}
             </div>
@@ -127,7 +130,7 @@ const DashboardBaganPertandinganFeature = () => {
           <Button
             className="mt-6 cursor-pointer"
             onClick={handleBuatBagan}
-            disabled={data.data.length < 3 || isPending}
+            disabled={data.data.length < 2 || isPending}
           >
             {isPending ? "Membuat Bagan..." : "Buat Bagan"}
           </Button>
