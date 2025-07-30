@@ -15,7 +15,14 @@ const DashboardLaporanHasilPertandinganFeature = () => {
 
   useEffect(() => {
     if (data?.data) {
-      const categoriesData = remapCompetitionDataByCategoryEnhanced(data.data);
+      const allMatches = data.data.flatMap((category) =>
+        category.matches.map((m) => ({
+          ...m,
+          category: category.label,
+        }))
+      );
+
+      const categoriesData = remapCompetitionDataByCategoryEnhanced(allMatches);
       setIsRemappingData(categoriesData.data);
     }
   }, [data]);
@@ -42,7 +49,9 @@ const DashboardLaporanHasilPertandinganFeature = () => {
         <div className="flex items-center justify-center gap-8">
           <div className="text-center">
             <p className="text-2xl font-bold">
-              {statistikLoading ? "..." : statistikData?.categories ?? "-"}
+              {statistikLoading
+                ? "..."
+                : statistikData?.activeBaganCategories ?? "-"}
             </p>
 
             <p className="text-sm">Kategori</p>

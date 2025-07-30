@@ -12,13 +12,15 @@ const SponsorSection = () => {
         <Marquee>
           {sponsors.map((sponsorImg) => (
             <div className="px-8">
-              <Image
-                className="object-contain"
-                src={sponsorImg}
-                alt="sponsor img"
-                width={150}
-                height={150}
-              />
+              <div className="relative w-[150px] aspect-square">
+                <Image
+                  src={sponsorImg}
+                  alt="sponsor img"
+                  fill
+                  sizes="150px"
+                  className="object-contain"
+                />
+              </div>
             </div>
           ))}
         </Marquee>

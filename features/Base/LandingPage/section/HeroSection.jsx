@@ -39,13 +39,16 @@ const HeroSection = () => {
               </TooltipProvider>
             </Link>
           </div>
-          <Image
-            src="/images/bg-landingpage-hero.png"
-            alt="hero img"
-            priority
-            width={450}
-            height={450}
-          />
+          <div className="relative w-60 h-96 md:w-[450px] md:h-[750px] aspect-square">
+            <Image
+              src="/images/bg-landingpage-hero.png"
+              alt="hero img"
+              priority
+              fill
+              sizes="(max-width: 768px) 100vw, 450px"
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
       <div className="absolute top-[64%] md:top-[44%] left-[15%] md:left-[29%] bg-[#FF165D] w-8 md:w-10 h-8 md:h-10 rounded-full z-0" />

@@ -62,7 +62,7 @@ const DashboardLaporanPendaftaranFeature = () => {
                       <TableCell>{item.user_name}</TableCell>
                       <TableCell>{item.user_email}</TableCell>
                       <TableCell>{item.user_phone}</TableCell>
-                      <TableCell>{item.user_category}</TableCell>
+                      <TableCell>{item.category.label}</TableCell>
                       <TableCell className="max-w-[100px] truncate">
                         <a
                           href={item.photo}

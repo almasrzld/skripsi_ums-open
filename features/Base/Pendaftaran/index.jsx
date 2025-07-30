@@ -134,10 +134,7 @@ const PendaftaranFeature = () => {
           </h2>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit((values) => {
-                console.log("values", values); // ⬅️ Tambahkan di sini untuk debug
-                mutate(values);
-              })}
+              onSubmit={form.handleSubmit((values) => mutate(values))}
               className="grid grid-cols-1 md:grid-cols-2 gap-6"
             >
               <FormField

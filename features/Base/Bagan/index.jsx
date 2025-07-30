@@ -18,11 +18,10 @@ const BaganFeature = () => {
 
   useEffect(() => {
     if (data?.data) {
-      // Flatten semua match dan tambahkan field category
       const allMatches = data.data.flatMap((category) =>
         category.matches.map((m) => ({
           ...m,
-          category: category.label, // untuk dipakai di remap
+          category: category.label,
         }))
       );
 
@@ -82,7 +81,9 @@ const BaganFeature = () => {
           <div className="flex justify-center gap-8 md:gap-10 mt-8 text-white/90">
             <div className="text-center">
               <p className="text-2xl font-bold">
-                {statistikLoading ? "..." : statistikData?.categories ?? "-"}
+                {statistikLoading
+                  ? "..."
+                  : statistikData?.activeBaganCategories ?? "-"}
               </p>
 
               <p className="text-sm">Kategori</p>

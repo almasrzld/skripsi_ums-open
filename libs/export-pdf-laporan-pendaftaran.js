@@ -7,7 +7,7 @@ export const exportAllParticipants = async (participants) => {
   const doc = new jsPDF("l", "pt", "a4");
 
   const grouped = participants.reduce((acc, item) => {
-    const category = item.user_category || "Tanpa Kategori";
+    const category = item.category.label || "Tanpa Kategori";
     if (!acc[category]) acc[category] = [];
     acc[category].push(item);
     return acc;
@@ -28,7 +28,7 @@ export const exportAllParticipants = async (participants) => {
       item.user_name,
       item.user_email,
       item.user_phone,
-      item.user_category,
+      item.category.label,
       item.photo,
       item.user_institution,
       new Date(item.createdAt).toLocaleDateString("id-ID"),

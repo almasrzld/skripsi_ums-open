@@ -30,9 +30,13 @@ const DashboardHomeFeature = () => {
 
   const formattedDate = format(new Date(), "dd • MMMM • yyyy", { locale: id });
 
-  const totalMatch = baganData?.data?.length || 0;
-  const completedMatch =
-    baganData?.data?.filter((m) => m.status === "COMPLETED")?.length || 0;
+  const allMatches =
+    baganData?.data?.flatMap((category) => category.matches) || [];
+
+  const totalMatch = allMatches.length;
+  const completedMatch = allMatches.filter(
+    (m) => m.status === "COMPLETED"
+  ).length;
   const pendingMatch = totalMatch - completedMatch;
 
   const chartData = [

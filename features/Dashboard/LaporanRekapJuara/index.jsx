@@ -33,7 +33,13 @@ const DashboardLaporanRekapJuaraFeature = () => {
 
   useEffect(() => {
     if (data?.data) {
-      const categoriesData = remapCompetitionDataByCategoryEnhanced(data.data);
+      const allMatches = data.data.flatMap((category) =>
+        category.matches.map((m) => ({
+          ...m,
+          category: category.label,
+        }))
+      );
+      const categoriesData = remapCompetitionDataByCategoryEnhanced(allMatches);
       setIsRemappingData(categoriesData.data);
       const winner = calculateWinners(categoriesData.data);
       setWinnerData(winner);
@@ -143,7 +149,6 @@ const DashboardLaporanRekapJuaraFeature = () => {
       styles: { fontSize: 8, cellPadding: 3 },
     });
 
-    // Tambah halaman untuk ringkasan institusi
     doc.addPage();
     doc.setFontSize(14);
     doc.text("Rekap Pemenang Per Institusi", 40, 40);
